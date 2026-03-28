@@ -1,0 +1,17 @@
+{
+  "name": "@pwa-platform/shopping-list-backend",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch src/server.mjs",
+    "build": "node -e \"console.log('No backend build step yet for shopping-list')\"",
+    "start": "node src/server.mjs",
+    "lint": "node -e \"console.log('No backend lint yet for shopping-list')\"",
+    "test": "node -e \"console.log('No backend tests yet for shopping-list')\"",
+    "typecheck": "node -e \"console.log('No backend typecheck yet for shopping-list')\""
+  },
+  "dependencies": {
+    "fastify": "^5.3.3"
+  }
+}

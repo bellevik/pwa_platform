@@ -2,7 +2,26 @@ services:
   caddy:
     image: caddy:2.8.4
     restart: unless-stopped
+    depends_on:
+      shopping-list-backend:
+        condition: service_started
     ports:
       - "80:80"
     volumes:
       - ./caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - ../shell/dist:/srv/shell:ro
+      - ../generated:/srv/generated:ro
+      - ../apps:/srv/apps:ro
+
+  shopping-list-backend:
+    image: node:22-alpine
+    working_dir: /workspace
+    restart: unless-stopped
+    command: >-
+      sh -lc "corepack enable && pnpm install --frozen-lockfile && pnpm --filter @pwa-platform/shopping-list-backend start"
+    environment:
+      HOST: 0.0.0.0
+      NODE_OPTIONS: --experimental-sqlite
+      PORT: 4300
+    volumes:
+      - ..:/workspace

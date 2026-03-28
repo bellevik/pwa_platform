@@ -1,3 +1,31 @@
 :80 {
-  respond "pwa-platform routing is not configured yet" 200
+  encode zstd gzip
+
+  redir /shopping-list /shopping-list/ 308
+
+  handle /generated/* {
+    root * /srv
+    file_server
+  }
+
+  handle /api/shopping-list/* {
+    reverse_proxy shopping-list-backend:4300
+  }
+
+  handle_path /shopping-list/icons/* {
+    root * /srv/apps/shopping-list/icons
+    file_server
+  }
+
+  handle_path /shopping-list/* {
+    root * /srv/apps/shopping-list/frontend/dist
+    try_files {path} /index.html
+    file_server
+  }
+
+  handle {
+    root * /srv/shell
+    try_files {path} /index.html
+    file_server
+  }
 }
