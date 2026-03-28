@@ -1,0 +1,3 @@
+:80 {
+  respond "pwa-platform routing is not configured yet" 200
+}

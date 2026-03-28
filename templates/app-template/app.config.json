@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "slug": "__APP_SLUG__",
+  "name": "__APP_NAME__",
+  "description": "__APP_DESCRIPTION__",
+  "route": "/__APP_SLUG__/",
+  "apiBase": "/api/__APP_SLUG__/",
+  "hasBackend": __HAS_BACKEND__,
+  "hasDatabase": __HAS_DATABASE__,
+  "database": "__DATABASE__",
+  "pwa": true,
+  "offline": true,
+  "icon": "/__APP_SLUG__/icons/app-icon.svg",
+  "themeColor": "#28536b",
+  "backgroundColor": "#f7f3e8",
+  "version": 1
+}

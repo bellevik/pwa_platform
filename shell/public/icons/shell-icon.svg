@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">PWA Platform Shell Icon</title>
+  <desc id="desc">Warm gradient platform icon with layered rounded tiles.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0%" x2="100%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#f4a261" />
+      <stop offset="55%" stop-color="#e76f51" />
+      <stop offset="100%" stop-color="#8d3b72" />
+    </linearGradient>
+    <linearGradient id="glass" x1="0%" x2="0%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#fff7e8" stop-opacity="0.95" />
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.55" />
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="128" fill="url(#bg)" />
+  <circle cx="392" cy="120" r="68" fill="#ffd166" fill-opacity="0.45" />
+  <rect x="88" y="96" width="336" height="320" rx="68" fill="url(#glass)" />
+  <rect x="132" y="148" width="96" height="96" rx="28" fill="#a44a3f" />
+  <rect x="246" y="148" width="134" height="96" rx="28" fill="#264653" />
+  <rect x="132" y="260" width="248" height="44" rx="22" fill="#f4a261" />
+  <rect x="132" y="322" width="170" height="44" rx="22" fill="#457b9d" />
+  <rect x="318" y="322" width="62" height="44" rx="22" fill="#2a9d8f" />
+</svg>

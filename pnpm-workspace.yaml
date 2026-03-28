@@ -1,0 +1,5 @@
+packages:
+  - shell
+  - apps/*/frontend
+  - apps/*/backend
+  - shared/*

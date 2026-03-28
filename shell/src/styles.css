@@ -1,0 +1,253 @@
+:root {
+  color-scheme: light;
+  font-family: "Avenir Next", "Segoe UI", sans-serif;
+  background:
+    radial-gradient(circle at top, rgba(255, 209, 102, 0.4), transparent 32%),
+    linear-gradient(180deg, #fff6db 0%, #f7efe0 42%, #f2e6d0 100%);
+  color: #1c1a17;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.shell-app {
+  width: min(1120px, calc(100vw - 2rem));
+  margin: 0 auto;
+  padding: 2rem 0 4rem;
+}
+
+.hero-card,
+.message-card,
+.empty-state {
+  backdrop-filter: blur(18px);
+  background: rgba(255, 255, 255, 0.62);
+  border: 1px solid rgba(69, 54, 28, 0.1);
+  border-radius: 28px;
+  box-shadow: 0 24px 60px rgba(92, 70, 30, 0.12);
+}
+
+.hero-card {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(260px, 1fr);
+  gap: 1.5rem;
+  padding: 1.75rem;
+}
+
+.eyebrow {
+  margin: 0 0 0.35rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  color: #7a6540;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+h1 {
+  font-size: clamp(2.25rem, 5vw, 4rem);
+  line-height: 0.95;
+}
+
+h2 {
+  font-size: clamp(1.35rem, 3vw, 2rem);
+}
+
+.hero-copy,
+.panel-copy,
+.app-description,
+.message-card span,
+.empty-state p {
+  color: #5d4d30;
+  line-height: 1.55;
+}
+
+.hero-copy {
+  max-width: 44rem;
+  margin-top: 0.85rem;
+  font-size: 1.05rem;
+}
+
+.hero-meta {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  padding: 0.45rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.status-pill--network {
+  background: rgba(76, 175, 80, 0.15);
+  color: #2d6d31;
+}
+
+.status-pill--cache {
+  background: rgba(255, 179, 71, 0.18);
+  color: #8a5b09;
+}
+
+.status-pill--fallback {
+  background: rgba(109, 76, 65, 0.14);
+  color: #6b4e45;
+}
+
+.hero-meta dl {
+  display: grid;
+  gap: 0.9rem;
+  margin: 0;
+}
+
+.hero-meta div {
+  padding: 1rem;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.56);
+}
+
+.hero-meta dt {
+  color: #7a6540;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.35rem;
+}
+
+.hero-meta dd {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.panel-header {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 2rem 0 1rem;
+}
+
+.panel-copy {
+  max-width: 28rem;
+}
+
+.message-card,
+.empty-state {
+  padding: 1rem 1.1rem;
+}
+
+.message-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-bottom: 1rem;
+}
+
+.message-card--warning {
+  border-color: rgba(180, 116, 19, 0.22);
+}
+
+.app-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+}
+
+.app-tile {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  min-height: 220px;
+  padding: 1rem;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.68);
+  border: 1px solid rgba(69, 54, 28, 0.1);
+  box-shadow: 0 18px 50px rgba(92, 70, 30, 0.1);
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.app-tile:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 24px 60px rgba(92, 70, 30, 0.16);
+}
+
+.app-icon {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 20px;
+  color: #ffffff;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.app-name {
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.app-description {
+  font-size: 0.95rem;
+}
+
+.empty-state {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 720px) {
+  .shell-app {
+    width: min(100vw - 1.25rem, 100%);
+    padding-top: 1.25rem;
+  }
+
+  .hero-card {
+    grid-template-columns: 1fr;
+  }
+
+  .panel-header {
+    flex-direction: column;
+    align-items: start;
+  }
+
+  .app-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 460px) {
+  .app-grid {
+    grid-template-columns: 1fr;
+  }
+}

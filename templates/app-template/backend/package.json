@@ -1,0 +1,17 @@
+{
+  "name": "@pwa-platform/__APP_SLUG__-backend",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch src/server.mjs",
+    "build": "node -e \"console.log('No backend build step yet for __APP_SLUG__')\"",
+    "start": "node src/server.mjs",
+    "lint": "node -e \"console.log('No backend lint yet for __APP_SLUG__')\"",
+    "test": "node -e \"console.log('No backend tests yet for __APP_SLUG__')\"",
+    "typecheck": "node -e \"console.log('No backend typecheck yet for __APP_SLUG__')\""
+  },
+  "dependencies": {
+    "fastify": "^5.3.3"
+  }
+}

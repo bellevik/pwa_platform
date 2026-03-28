@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://pwa-platform.local/schemas/app-config.schema.json",
+  "title": "App Config",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "slug",
+    "name",
+    "description",
+    "route",
+    "apiBase",
+    "hasBackend",
+    "hasDatabase",
+    "database",
+    "pwa",
+    "offline",
+    "icon",
+    "themeColor",
+    "backgroundColor",
+    "version"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "integer",
+      "const": 1
+    },
+    "slug": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 240
+    },
+    "route": {
+      "type": "string",
+      "pattern": "^/[a-z0-9]+(?:-[a-z0-9]+)*/$"
+    },
+    "apiBase": {
+      "type": "string",
+      "pattern": "^/api/[a-z0-9]+(?:-[a-z0-9]+)*/$"
+    },
+    "hasBackend": {
+      "type": "boolean"
+    },
+    "hasDatabase": {
+      "type": "boolean"
+    },
+    "database": {
+      "type": "string",
+      "enum": [
+        "none",
+        "sqlite"
+      ]
+    },
+    "pwa": {
+      "type": "boolean",
+      "const": true
+    },
+    "offline": {
+      "type": "boolean",
+      "const": true
+    },
+    "icon": {
+      "type": "string",
+      "pattern": "^/[a-z0-9]+(?:-[a-z0-9]+)*/icons/[A-Za-z0-9._-]+$"
+    },
+    "themeColor": {
+      "type": "string",
+      "pattern": "^#[A-Fa-f0-9]{6}$"
+    },
+    "backgroundColor": {
+      "type": "string",
+      "pattern": "^#[A-Fa-f0-9]{6}$"
+    },
+    "version": {
+      "type": "integer",
+      "minimum": 1
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "hasDatabase": {
+            "const": true
+          }
+        },
+        "required": [
+          "hasDatabase"
+        ]
+      },
+      "then": {
+        "properties": {
+          "database": {
+            "const": "sqlite"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "hasDatabase": {
+            "const": false
+          }
+        },
+        "required": [
+          "hasDatabase"
+        ]
+      },
+      "then": {
+        "properties": {
+          "database": {
+            "const": "none"
+          }
+        }
+      }
+    }
+  ]
+}
