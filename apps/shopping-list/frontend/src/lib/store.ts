@@ -12,6 +12,7 @@ import type {
   SyncRequestBody,
   SyncResponseBody
 } from '../types';
+import { rebuildItemsFromCanonicalState } from './item-replay';
 
 type AppMeta = {
   key: string;
@@ -214,22 +215,15 @@ export async function refreshFromCanonicalState(): Promise<void> {
 
   await db.transaction('rw', db.items, db.operations, db.meta, async () => {
     const liveOperations = await db.operations.toArray();
+    const nextItems = rebuildItemsFromCanonicalState({
+      canonicalItems: payload.state.items,
+      operations: liveOperations
+    });
 
     await db.items.clear();
 
-    if (payload.state.items.length > 0) {
-      await db.items.bulkPut(
-        payload.state.items.map((item) => ({
-          ...item,
-          deletedAt: item.deletedAt ?? null
-        }))
-      );
-    }
-
-    for (const operation of sortOperationsByTimestamp(liveOperations)) {
-      if (operation.status === 'pending') {
-        await applyOperationToItems(operation);
-      }
+    if (nextItems.length > 0) {
+      await db.items.bulkPut(nextItems);
     }
 
     await setMeta(META_LAST_SYNC, payload.serverTimestamp);
@@ -245,17 +239,12 @@ async function applySyncResponse(payload: SyncResponseBody): Promise<void> {
       ackedOperationIds: payload.ackedOperationIds,
       rejectedOperations: payload.rejectedOperations
     });
+    const nextItems = rebuildItemsFromCanonicalState({
+      canonicalItems: payload.state.items,
+      operations: remainingOperations
+    });
 
     await db.items.clear();
-
-    if (payload.state.items.length > 0) {
-      await db.items.bulkPut(
-        payload.state.items.map((item) => ({
-          ...item,
-          deletedAt: item.deletedAt ?? null
-        }))
-      );
-    }
 
     await db.operations.clear();
 
@@ -263,62 +252,13 @@ async function applySyncResponse(payload: SyncResponseBody): Promise<void> {
       await db.operations.bulkPut(remainingOperations);
     }
 
-    for (const operation of remainingOperations) {
-      if (operation.status === 'pending') {
-        await applyOperationToItems(operation);
-      }
+    if (nextItems.length > 0) {
+      await db.items.bulkPut(nextItems);
     }
 
     await setMeta(META_LAST_SYNC, payload.serverTimestamp);
     await setMeta(META_SERVER_VERSION, String(payload.serverVersion));
   });
-}
-
-async function applyOperationToItems(operation: ShoppingOperation): Promise<void> {
-  if (operation.type === 'item_add') {
-    const current = await db.items.get(operation.entityId);
-    const nextItem: ShoppingItem = current ?? {
-      id: operation.entityId,
-      text: operation.payload.text ?? 'Untitled item',
-      completed: false,
-      createdAt: operation.clientTimestamp,
-      updatedAt: operation.clientTimestamp,
-      deletedAt: null
-    };
-
-    await db.items.put({
-      ...nextItem,
-      text: operation.payload.text ?? nextItem.text,
-      completed: false,
-      updatedAt: operation.clientTimestamp,
-      deletedAt: null
-    });
-    return;
-  }
-
-  const existing = await db.items.get(operation.entityId);
-
-  if (!existing) {
-    return;
-  }
-
-  if (operation.type === 'item_toggle') {
-    await db.items.put({
-      ...existing,
-      completed: Boolean(operation.payload.completed),
-      updatedAt: operation.clientTimestamp,
-      deletedAt: null
-    });
-    return;
-  }
-
-  if (operation.type === 'item_delete') {
-    await db.items.put({
-      ...existing,
-      deletedAt: operation.clientTimestamp,
-      updatedAt: operation.clientTimestamp
-    });
-  }
 }
 
 function createOperation(

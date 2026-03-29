@@ -307,6 +307,50 @@ export default function App() {
             </div>
           )}
         </article>
+
+        <article className="panel debug-panel">
+          <div className="panel-heading">
+            <div>
+              <p className="eyebrow">Sync Debug</p>
+              <h2>Queue and canonical state</h2>
+            </div>
+          </div>
+
+          <div className="debug-grid">
+            <div>
+              <span className="debug-label">Pending queue</span>
+              <strong>{snapshot.pendingCount}</strong>
+            </div>
+            <div>
+              <span className="debug-label">Failed queue</span>
+              <strong>{snapshot.failedCount}</strong>
+            </div>
+            <div>
+              <span className="debug-label">Server version</span>
+              <strong>{snapshot.serverVersion}</strong>
+            </div>
+            <div>
+              <span className="debug-label">Last sync</span>
+              <strong>{formatTimestamp(snapshot.lastSyncAt)}</strong>
+            </div>
+          </div>
+
+          <div className="debug-list-wrap">
+            <h3>Failed operations</h3>
+            {snapshot.failedOperations.length > 0 ? (
+              <ul className="debug-list">
+                {snapshot.failedOperations.map((operation) => (
+                  <li key={operation.id}>
+                    <strong>{operation.type}</strong>
+                    <span>{operation.error ?? 'Unknown error'}</span>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="debug-empty">No failed operations right now.</p>
+            )}
+          </div>
+        </article>
       </section>
     </main>
   );
