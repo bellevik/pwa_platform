@@ -2,6 +2,7 @@
 set -euo pipefail
 
 source "$(dirname "$0")/lib/common.sh"
+source "$(dirname "$0")/lib/build.sh"
 source "$(dirname "$0")/lib/runtime.sh"
 
 require_app_slug "$@"
@@ -11,8 +12,13 @@ ROOT_DIR="$(repo_root)"
 
 ensure_app_exists "$slug"
 
-printf 'Rebuilding app before restart: %s\n' "$slug"
-bash "$ROOT_DIR/scripts/REBUILD_APP.sh" "$slug"
+if [ "${PWA_PLATFORM_SKIP_BUILD:-0}" = "1" ]; then
+  printf 'Skipping app rebuild because PWA_PLATFORM_SKIP_BUILD=1.\n'
+else
+  printf 'Rebuilding app before restart: %s\n' "$slug"
+  regenerate_app_registry
+  build_single_app "$slug"
+fi
 
 if [ "$(app_has_backend "$slug")" = "true" ]; then
   service_name="$(app_backend_service "$slug")"

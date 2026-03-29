@@ -64,9 +64,12 @@ if (config.hasBackend) {
 if (isPlatformRuntimeActive(rootDir)) {
   await assertLiveRoute(`http://127.0.0.1${config.route}`, `app '${slug}' frontend`);
   await assertLiveRoute(`http://127.0.0.1${config.route}manifest.webmanifest`, `app '${slug}' manifest`);
+  await assertLiveRoute(`http://127.0.0.1${config.route}sw.js`, `app '${slug}' service worker`);
+  await assertLiveRoute(`http://127.0.0.1${config.icon}`, `app '${slug}' icon`);
 
   if (config.hasBackend) {
     await assertLiveRoute(`http://127.0.0.1${config.apiBase}health/`, `app '${slug}' backend`);
+    await assertLiveRoute(`http://127.0.0.1${config.apiBase.replace(/\/$/, '')}/state/`, `app '${slug}' canonical state`);
   }
 }
 

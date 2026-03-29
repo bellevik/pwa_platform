@@ -39,10 +39,12 @@ for (const app of registry.apps) {
 if (isPlatformRuntimeActive(rootDir)) {
   await assertLiveRoute('http://127.0.0.1/', 'shell');
   await assertLiveRoute('http://127.0.0.1/manifest.webmanifest', 'shell manifest');
+  await assertLiveRoute('http://127.0.0.1/sw.js', 'shell service worker');
   await assertLiveRoute('http://127.0.0.1/generated/app-registry.json', 'generated registry');
 
   for (const app of registry.apps) {
     await assertLiveRoute(`http://127.0.0.1${app.route}`, `app '${app.slug}' frontend`);
+    await assertLiveRoute(`http://127.0.0.1${app.route}manifest.webmanifest`, `app '${app.slug}' manifest`);
   }
 }
 
