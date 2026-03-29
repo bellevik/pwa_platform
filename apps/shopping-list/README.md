@@ -42,5 +42,8 @@ Offline-first shopping list with local queue and sync-ready backend
 ## Verification Notes
 
 - frontend build: `pnpm --filter @pwa-platform/shopping-list-frontend build`
+- frontend replay tests: `pnpm --filter @pwa-platform/shopping-list-frontend test`
 - backend health: `GET /api/shopping-list/health/`
 - sync endpoint: `POST /api/shopping-list/sync/`
+- canonical state endpoint: `GET /api/shopping-list/state/`
+- browser offline validation: `node apps/shopping-list/frontend/scripts/offline-browser-check.mjs`
