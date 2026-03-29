@@ -85,6 +85,11 @@ h1 {
   padding: 1rem;
 }
 
+.panel,
+.hero {
+  overflow: hidden;
+}
+
 .panel h2 {
   margin-bottom: 0.5rem;
   font-size: 1.05rem;

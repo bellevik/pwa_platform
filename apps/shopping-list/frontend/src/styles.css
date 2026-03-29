@@ -287,6 +287,9 @@ h2 {
 .secondary-button,
 .toggle-button,
 .delete-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border: 0;
   border-radius: 16px;
   padding: 0.85rem 1rem;
@@ -423,6 +426,23 @@ h2 {
 
   .status-row {
     gap: 0.5rem;
+  }
+
+  .panel-heading {
+    align-items: stretch;
+  }
+
+  .panel-heading .secondary-button,
+  .action-row .secondary-button,
+  .queue-summary .secondary-button,
+  .add-form .primary-button,
+  .item-card .toggle-button,
+  .item-card .delete-button {
+    width: 100%;
+  }
+
+  .action-row {
+    justify-content: stretch;
   }
 
   .failed-ops-list li {
