@@ -2,6 +2,9 @@
 set -euo pipefail
 
 source "$(dirname "$0")/lib/common.sh"
+source "$(dirname "$0")/lib/lock.sh"
+
+acquire_platform_lock
 
 ROOT_DIR="$(repo_root)"
 

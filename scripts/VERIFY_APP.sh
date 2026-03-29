@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+source "$(dirname "$0")/lib/lock.sh"
+
+acquire_platform_lock
+
 if [ "$#" -ne 1 ]; then
   printf 'Usage: %s <slug>\n' "$0" >&2
   exit 1

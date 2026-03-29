@@ -119,6 +119,13 @@ The operations scripts support a small set of environment flags for repeated loc
 - `PWA_PLATFORM_SKIP_INSTALL=1`: skip `pnpm install` in build flows when dependencies are already current
 - `PWA_PLATFORM_SKIP_BUILD=1`: skip rebuild work in runtime restart/start flows when assets are already current
 - `PWA_PLATFORM_SKIP_APP_VERIFY=1`: skip per-app verification in `TEST_APP.sh`; `TEST_ALL.sh` uses this internally before its final platform verification
+- `PWA_PLATFORM_LOCK_TIMEOUT=<seconds>`: control how long root ops scripts wait on the platform lock before failing
+
+## Concurrency Safety
+
+- root operations scripts take a shared platform lock under `.opencode-locks/`
+- this prevents concurrent agents from rebuilding, restarting, testing, or verifying the platform at the same time
+- nested script calls are lock-aware and reuse the current lock instead of deadlocking
 
 ## Future Hardening Targets
 

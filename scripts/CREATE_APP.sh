@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+source "$(dirname "$0")/lib/lock.sh"
+
+acquire_platform_lock
+
 ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 
 node "$ROOT_DIR/scripts/create-app.mjs" "$@"
