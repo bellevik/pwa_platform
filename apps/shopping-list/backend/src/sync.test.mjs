@@ -164,3 +164,113 @@ test('sync rejects invalid payloads without mutating state', async () => {
     ]);
   });
 });
+
+test('state endpoint returns canonical items after sync', async () => {
+  await withServer(async (server) => {
+    await server.inject({
+      method: 'POST',
+      url: '/api/shopping-list/sync/',
+      payload: makeRequest([
+        {
+          id: '12121212-1212-4212-8212-121212121212',
+          entityId: '34343434-3434-4434-8434-343434343434',
+          type: 'item_add',
+          payload: { text: 'Eggs' },
+          clientTimestamp: '2026-03-29T14:00:00.000Z',
+          deviceId: '22222222-2222-4222-8222-222222222222',
+          status: 'pending'
+        }
+      ])
+    });
+
+    const response = await server.inject({
+      method: 'GET',
+      url: '/api/shopping-list/state/'
+    });
+
+    assert.equal(response.statusCode, 200);
+    const body = response.json();
+    assert.equal(body.serverVersion, 1);
+    assert.equal(body.state.items.length, 1);
+    assert.equal(body.state.items[0].text, 'Eggs');
+  });
+});
+
+test('newer operations win over older ones for the same item', async () => {
+  await withServer(async (server) => {
+    const entityId = '56565656-5656-4565-8565-565656565656';
+
+    await server.inject({
+      method: 'POST',
+      url: '/api/shopping-list/sync/',
+      payload: makeRequest([
+        {
+          id: '78787878-7878-4787-8787-787878787878',
+          entityId,
+          type: 'item_add',
+          payload: { text: 'Butter' },
+          clientTimestamp: '2026-03-29T15:00:00.000Z',
+          deviceId: '22222222-2222-4222-8222-222222222222',
+          status: 'pending'
+        },
+        {
+          id: '79797979-7979-4797-8797-797979797979',
+          entityId,
+          type: 'item_toggle',
+          payload: { completed: true },
+          clientTimestamp: '2026-03-29T15:02:00.000Z',
+          deviceId: '22222222-2222-4222-8222-222222222222',
+          status: 'pending'
+        }
+      ])
+    });
+
+    const staleResponse = await server.inject({
+      method: 'POST',
+      url: '/api/shopping-list/sync/',
+      payload: makeRequest([
+        {
+          id: '80808080-8080-4808-8808-808080808080',
+          entityId,
+          type: 'item_toggle',
+          payload: { completed: false },
+          clientTimestamp: '2026-03-29T15:01:00.000Z',
+          deviceId: '99999999-9999-4999-8999-999999999999',
+          status: 'pending'
+        }
+      ], 2)
+    });
+
+    assert.equal(staleResponse.statusCode, 200);
+    assert.equal(staleResponse.json().state.items[0].completed, true);
+    assert.equal(staleResponse.json().serverVersion, 3);
+  });
+});
+
+test('toggle on a missing entity is rejected cleanly', async () => {
+  await withServer(async (server) => {
+    const response = await server.inject({
+      method: 'POST',
+      url: '/api/shopping-list/sync/',
+      payload: makeRequest([
+        {
+          id: '90909090-9090-4909-8909-909090909090',
+          entityId: 'abababab-abab-4bab-8bab-abababababab',
+          type: 'item_toggle',
+          payload: { completed: true },
+          clientTimestamp: '2026-03-29T16:00:00.000Z',
+          deviceId: '22222222-2222-4222-8222-222222222222',
+          status: 'pending'
+        }
+      ])
+    });
+
+    assert.equal(response.statusCode, 200);
+    assert.deepEqual(response.json().rejectedOperations, [
+      {
+        id: '90909090-9090-4909-8909-909090909090',
+        reason: 'missing_entity'
+      }
+    ]);
+  });
+});

@@ -22,6 +22,15 @@ type SyncResult = {
   sentOperations: number;
 };
 
+type CanonicalStateResponse = {
+  schemaVersion: number;
+  serverVersion: number;
+  state: {
+    items: ShoppingItem[];
+  };
+  serverTimestamp: string;
+};
+
 class ShoppingListDatabase extends Dexie {
   items!: Table<ShoppingItem, string>;
   operations!: Table<ShoppingOperation, string>;
@@ -188,6 +197,44 @@ export async function syncItems(): Promise<SyncResult> {
   return {
     sentOperations: pendingOperations.length
   };
+}
+
+export async function refreshFromCanonicalState(): Promise<void> {
+  const response = await fetch('/api/shopping-list/state/', {
+    headers: {
+      accept: 'application/json'
+    }
+  });
+
+  if (!response.ok) {
+    throw new Error(`State refresh failed with ${response.status}`);
+  }
+
+  const payload = (await response.json()) as CanonicalStateResponse;
+
+  await db.transaction('rw', db.items, db.operations, db.meta, async () => {
+    const liveOperations = await db.operations.toArray();
+
+    await db.items.clear();
+
+    if (payload.state.items.length > 0) {
+      await db.items.bulkPut(
+        payload.state.items.map((item) => ({
+          ...item,
+          deletedAt: item.deletedAt ?? null
+        }))
+      );
+    }
+
+    for (const operation of sortOperationsByTimestamp(liveOperations)) {
+      if (operation.status === 'pending') {
+        await applyOperationToItems(operation);
+      }
+    }
+
+    await setMeta(META_LAST_SYNC, payload.serverTimestamp);
+    await setMeta(META_SERVER_VERSION, String(payload.serverVersion));
+  });
 }
 
 async function applySyncResponse(payload: SyncResponseBody): Promise<void> {

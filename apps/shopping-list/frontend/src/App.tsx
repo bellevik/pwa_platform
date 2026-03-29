@@ -3,6 +3,7 @@ import { getCurrentNetworkStatus, subscribeToNetworkStatus } from '@pwa-platform
 import {
   addItem,
   deleteItem,
+  refreshFromCanonicalState,
   getSnapshot,
   retryFailedOperations,
   syncItems,
@@ -145,6 +146,21 @@ export default function App() {
     }
   };
 
+  const handleRefreshFromServer = async () => {
+    if (!getCurrentNetworkStatus()) {
+      setSyncMessage('Reconnect to refresh from the canonical server state.');
+      return;
+    }
+
+    try {
+      await refreshFromCanonicalState();
+      await refreshSnapshot();
+      setSyncMessage('Reloaded the latest canonical state from the server.');
+    } catch (error) {
+      setSyncMessage(error instanceof Error ? error.message : 'Refresh failed.');
+    }
+  };
+
   const completedCount = useMemo(
     () => snapshot.items.filter((item) => item.completed).length,
     [snapshot.items]
@@ -211,6 +227,12 @@ export default function App() {
             </div>
             <button className="secondary-button" type="button" onClick={() => void runSync('manual')} disabled={isSyncing}>
               {isSyncing ? 'Syncing...' : 'Sync now'}
+            </button>
+          </div>
+
+          <div className="action-row">
+            <button className="secondary-button" type="button" onClick={handleRefreshFromServer}>
+              Refresh from server
             </button>
           </div>
 

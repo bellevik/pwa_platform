@@ -83,6 +83,15 @@ export function buildShoppingListServer(options = {}) {
     serverVersion: getServerVersion()
   }));
 
+  server.get(`/api/${slug}/state/`, async () => ({
+    schemaVersion: 1,
+    serverVersion: getServerVersion(),
+    state: {
+      items: listVisibleItems()
+    },
+    serverTimestamp: new Date().toISOString()
+  }));
+
   server.post(`/api/${slug}/sync/`, async (request, reply) => {
     const body = request.body;
 

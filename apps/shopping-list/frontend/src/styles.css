@@ -190,6 +190,12 @@ h2 {
   margin-bottom: 1rem;
 }
 
+.action-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0.9rem;
+}
+
 .add-form {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
