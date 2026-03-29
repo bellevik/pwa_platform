@@ -3,6 +3,7 @@ set -euo pipefail
 
 source "$(dirname "$0")/lib/common.sh"
 source "$(dirname "$0")/lib/build.sh"
+source "$(dirname "$0")/lib/dry-run.sh"
 source "$(dirname "$0")/lib/runtime.sh"
 source "$(dirname "$0")/lib/lock.sh"
 source "$(dirname "$0")/lib/preflight.sh"
@@ -24,9 +25,13 @@ else
 fi
 
 printf 'Starting Docker Compose runtime...\n'
-docker compose -f "$ROOT_DIR/ops/docker-compose.yml" up -d --force-recreate
+run_cmd docker compose -f "$ROOT_DIR/ops/docker-compose.yml" up -d --force-recreate
 
 printf 'Waiting for platform runtime to become healthy...\n'
-wait_for_platform_runtime 90
+if is_dry_run; then
+  printf 'Skipping runtime health wait because PWA_PLATFORM_DRY_RUN=1.\n'
+else
+  wait_for_platform_runtime 90
+fi
 
 printf 'START_ALL completed successfully.\n'

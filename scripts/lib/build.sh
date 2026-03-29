@@ -2,6 +2,7 @@
 set -euo pipefail
 
 source "$(dirname "${BASH_SOURCE[0]}")/common.sh"
+source "$(dirname "${BASH_SOURCE[0]}")/dry-run.sh"
 
 install_workspace_dependencies() {
   if [ "${PWA_PLATFORM_SKIP_INSTALL:-0}" = "1" ]; then
@@ -10,7 +11,7 @@ install_workspace_dependencies() {
   fi
 
   printf 'Installing workspace dependencies...\n'
-  pnpm install
+  run_cmd pnpm install
 }
 
 regenerate_app_registry() {
@@ -18,18 +19,18 @@ regenerate_app_registry() {
   root_dir="$(repo_root)"
 
   printf 'Generating app registry...\n'
-  bash "$root_dir/scripts/REGISTER_APPS.sh"
+  run_bash_script "$root_dir/scripts/REGISTER_APPS.sh"
 }
 
 build_shell_package() {
   printf 'Building shell...\n'
-  pnpm --filter @pwa-platform/shell build
+  run_cmd pnpm --filter @pwa-platform/shell build
 }
 
 build_app_frontend() {
   local slug="$1"
   printf 'Building app frontend: %s\n' "$slug"
-  pnpm --filter "$(app_frontend_package "$slug")" build
+  run_cmd pnpm --filter "$(app_frontend_package "$slug")" build
 }
 
 build_app_backend() {
@@ -39,7 +40,7 @@ build_app_backend() {
   fi
 
   printf 'Building app backend: %s\n' "$slug"
-  pnpm --filter "$(app_backend_package "$slug")" build
+  run_cmd pnpm --filter "$(app_backend_package "$slug")" build
 }
 
 build_all_apps() {

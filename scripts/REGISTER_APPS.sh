@@ -3,8 +3,9 @@ set -euo pipefail
 
 source "$(dirname "$0")/lib/lock.sh"
 source "$(dirname "$0")/lib/preflight.sh"
+source "$(dirname "$0")/lib/dry-run.sh"
 
 acquire_platform_lock
 require_base_tooling
 
-node scripts/register-apps.mjs
+run_cmd node scripts/register-apps.mjs

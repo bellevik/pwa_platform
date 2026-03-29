@@ -3,15 +3,16 @@ set -euo pipefail
 
 source "$(dirname "$0")/lib/lock.sh"
 source "$(dirname "$0")/lib/preflight.sh"
+source "$(dirname "$0")/lib/dry-run.sh"
 
 acquire_platform_lock
 require_base_tooling
 
 printf 'Generating app registry...\n'
-bash scripts/REGISTER_APPS.sh
+run_bash_script scripts/REGISTER_APPS.sh
 
 printf 'Building shell...\n'
-pnpm --filter @pwa-platform/shell build >/dev/null
+run_cmd pnpm --filter @pwa-platform/shell build
 
 printf 'Verifying registry and shell artifacts...\n'
-node scripts/verify-platform.mjs
+run_cmd node scripts/verify-platform.mjs

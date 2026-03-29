@@ -2,6 +2,7 @@
 set -euo pipefail
 
 source "$(dirname "$0")/lib/common.sh"
+source "$(dirname "$0")/lib/dry-run.sh"
 source "$(dirname "$0")/lib/lock.sh"
 source "$(dirname "$0")/lib/preflight.sh"
 
@@ -17,10 +18,10 @@ while IFS= read -r slug; do
   fi
 
   printf 'Testing app: %s\n' "$slug"
-  PWA_PLATFORM_SKIP_APP_VERIFY=1 bash "$ROOT_DIR/scripts/TEST_APP.sh" "$slug"
+  PWA_PLATFORM_SKIP_APP_VERIFY=1 run_bash_script "$ROOT_DIR/scripts/TEST_APP.sh" "$slug"
 done < <(list_app_slugs)
 
 printf 'Running final platform verification...\n'
-bash "$ROOT_DIR/scripts/VERIFY_PLATFORM.sh"
+run_bash_script "$ROOT_DIR/scripts/VERIFY_PLATFORM.sh"
 
 printf 'TEST_ALL completed successfully.\n'

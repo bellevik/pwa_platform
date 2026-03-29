@@ -120,6 +120,7 @@ The operations scripts support a small set of environment flags for repeated loc
 - `PWA_PLATFORM_SKIP_BUILD=1`: skip rebuild work in runtime restart/start flows when assets are already current
 - `PWA_PLATFORM_SKIP_APP_VERIFY=1`: skip per-app verification in `TEST_APP.sh`; `TEST_ALL.sh` uses this internally before its final platform verification
 - `PWA_PLATFORM_LOCK_TIMEOUT=<seconds>`: control how long root ops scripts wait on the platform lock before failing
+- `PWA_PLATFORM_DRY_RUN=1`: print high-impact commands instead of executing them in build/start/stop/restart/test/verify flows
 
 ## Concurrency Safety
 

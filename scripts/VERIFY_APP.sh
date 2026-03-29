@@ -3,6 +3,7 @@ set -euo pipefail
 
 source "$(dirname "$0")/lib/lock.sh"
 source "$(dirname "$0")/lib/preflight.sh"
+source "$(dirname "$0")/lib/dry-run.sh"
 
 acquire_platform_lock
 require_base_tooling
@@ -12,4 +13,4 @@ if [ "$#" -ne 1 ]; then
   exit 1
 fi
 
-node scripts/verify-app.mjs "$1"
+run_cmd node scripts/verify-app.mjs "$1"

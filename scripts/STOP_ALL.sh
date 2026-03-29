@@ -2,6 +2,7 @@
 set -euo pipefail
 
 source "$(dirname "$0")/lib/common.sh"
+source "$(dirname "$0")/lib/dry-run.sh"
 source "$(dirname "$0")/lib/runtime.sh"
 source "$(dirname "$0")/lib/lock.sh"
 source "$(dirname "$0")/lib/preflight.sh"
@@ -12,9 +13,13 @@ require_runtime_tooling
 ROOT_DIR="$(repo_root)"
 
 printf 'Stopping Docker Compose runtime...\n'
-docker compose -f "$ROOT_DIR/ops/docker-compose.yml" down
+run_cmd docker compose -f "$ROOT_DIR/ops/docker-compose.yml" down
 
 printf 'Verifying all services are stopped...\n'
-assert_no_running_services
+if is_dry_run; then
+  printf 'Skipping stopped-service assertion because PWA_PLATFORM_DRY_RUN=1.\n'
+else
+  assert_no_running_services
+fi
 
 printf 'STOP_ALL completed successfully.\n'
