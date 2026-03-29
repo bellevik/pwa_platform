@@ -8,7 +8,7 @@
     "build": "node -e \"console.log('No backend build step yet for shopping-list')\"",
     "start": "node src/server.mjs",
     "lint": "node -e \"console.log('No backend lint yet for shopping-list')\"",
-    "test": "node -e \"console.log('No backend tests yet for shopping-list')\"",
+    "test": "node --experimental-sqlite --test src/**/*.test.mjs",
     "typecheck": "node -e \"console.log('No backend typecheck yet for shopping-list')\""
   },
   "dependencies": {

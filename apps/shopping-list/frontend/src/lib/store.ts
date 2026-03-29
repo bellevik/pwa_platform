@@ -65,6 +65,9 @@ export async function getSnapshot(): Promise<ShoppingListSnapshot> {
     items: visibleItems,
     pendingCount: operations.filter((operation) => operation.status === 'pending').length,
     failedCount: operations.filter((operation) => operation.status === 'failed').length,
+    failedOperations: sortOperationsByTimestamp(
+      operations.filter((operation) => operation.status === 'failed')
+    ),
     lastSyncAt,
     serverVersion: Number(serverVersion ?? '0')
   };

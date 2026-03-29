@@ -27,6 +27,7 @@ export type ShoppingListSnapshot = {
   items: ShoppingItem[];
   pendingCount: number;
   failedCount: number;
+  failedOperations: ShoppingOperation[];
   lastSyncAt: string | null;
   serverVersion: number;
 };

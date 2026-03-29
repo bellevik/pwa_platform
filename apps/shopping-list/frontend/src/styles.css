@@ -154,6 +154,24 @@ h2 {
   margin-bottom: 1rem;
 }
 
+.notice-card--warning {
+  border-color: rgba(185, 83, 61, 0.2);
+  background: rgba(255, 247, 243, 0.88);
+}
+
+.failed-ops-list {
+  margin-top: 0.65rem;
+  padding-left: 1rem;
+  color: #7a3a2a;
+}
+
+.failed-ops-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.2rem 0;
+}
+
 .workspace-grid {
   display: grid;
   grid-template-columns: minmax(320px, 0.95fr) minmax(0, 1.25fr);
@@ -255,6 +273,13 @@ h2 {
   font-size: 1.3rem;
 }
 
+.sync-footnote {
+  margin-top: 0.9rem;
+  color: #6b7280;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
 .item-list {
   display: grid;
   gap: 0.8rem;
@@ -324,5 +349,9 @@ h2 {
 
   .status-row {
     gap: 0.5rem;
+  }
+
+  .failed-ops-list li {
+    flex-direction: column;
   }
 }

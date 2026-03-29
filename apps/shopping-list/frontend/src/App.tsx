@@ -14,6 +14,7 @@ const initialSnapshot: ShoppingListSnapshot = {
   items: [],
   pendingCount: 0,
   failedCount: 0,
+  failedOperations: [],
   lastSyncAt: null,
   serverVersion: 0
 };
@@ -79,6 +80,20 @@ export default function App() {
     void refreshSnapshot();
     void runSync('initial');
   }, [refreshSnapshot, runSync]);
+
+  useEffect(() => {
+    if (!isOnline) {
+      return undefined;
+    }
+
+    const intervalId = window.setInterval(() => {
+      void runSync('manual');
+    }, 20000);
+
+    return () => {
+      window.clearInterval(intervalId);
+    };
+  }, [isOnline, runSync]);
 
   useEffect(() => {
     return subscribeToNetworkStatus((nextOnline) => {
@@ -173,6 +188,20 @@ export default function App() {
 
       {syncMessage ? <section className="notice-card">{syncMessage}</section> : null}
 
+      {snapshot.failedOperations.length > 0 ? (
+        <section className="notice-card notice-card--warning">
+          <strong>{snapshot.failedOperations.length} change{snapshot.failedOperations.length === 1 ? '' : 's'} need attention.</strong>
+          <ul className="failed-ops-list">
+            {snapshot.failedOperations.map((operation) => (
+              <li key={operation.id}>
+                <span>{operation.type.replace('item_', '').replace('-', ' ')}</span>
+                <span>{operation.error ?? 'Unknown sync failure'}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
+
       <section className="workspace-grid">
         <article className="panel form-panel">
           <div className="panel-heading">
@@ -216,6 +245,10 @@ export default function App() {
               Retry failed
             </button>
           </div>
+
+          <p className="sync-footnote">
+            While online, the app retries quietly in the background every 20 seconds and on reconnect.
+          </p>
         </article>
 
         <article className="panel list-panel">
