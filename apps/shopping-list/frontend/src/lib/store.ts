@@ -1,4 +1,5 @@
 import Dexie, { Table } from 'dexie';
+import { getPersistentSession } from '@pwa-platform/offline';
 import type {
   ShoppingItem,
   ShoppingListSnapshot,
@@ -310,19 +311,7 @@ function createOperation(
 }
 
 function getSession() {
-  const existing = window.localStorage.getItem(SESSION_STORAGE_KEY);
-
-  if (existing) {
-    return JSON.parse(existing) as { clientId: string; deviceId: string };
-  }
-
-  const nextSession = {
-    clientId: crypto.randomUUID(),
-    deviceId: crypto.randomUUID()
-  };
-
-  window.localStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(nextSession));
-  return nextSession;
+  return getPersistentSession(SESSION_STORAGE_KEY);
 }
 
 async function getMeta(key: string): Promise<string | null> {

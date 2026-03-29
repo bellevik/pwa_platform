@@ -1,6 +1,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import process from 'node:process';
+import { spawnSync } from 'node:child_process';
 
 const rootDir = process.cwd();
 
@@ -21,6 +22,17 @@ if (!Array.isArray(registry.apps)) {
 for (const file of requiredShellFiles) {
   const targetPath = path.join(shellDistDir, file);
   await fs.access(targetPath);
+}
+
+for (const app of registry.apps) {
+  const result = spawnSync('node', ['scripts/verify-app.mjs', app.slug], {
+    cwd: rootDir,
+    stdio: 'inherit'
+  });
+
+  if (result.status !== 0) {
+    throw new Error(`App verification failed for '${app.slug}'`);
+  }
 }
 
 process.stdout.write('Platform verification passed.\n');

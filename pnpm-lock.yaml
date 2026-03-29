@@ -26,6 +26,9 @@ importers:
 
   apps/shopping-list/frontend:
     dependencies:
+      '@pwa-platform/offline':
+        specifier: workspace:*
+        version: link:../../../shared/offline
       dexie:
         specifier: ^4.0.11
         version: 4.4.1
@@ -54,6 +57,12 @@ importers:
       vite-plugin-pwa:
         specifier: ^0.21.1
         version: 0.21.2(vite@6.4.1(terser@5.46.1))(workbox-build@7.4.0(@types/babel__core@7.20.5))(workbox-window@7.4.0)
+
+  shared/offline:
+    devDependencies:
+      typescript:
+        specifier: ^5.8.3
+        version: 5.9.3
 
   shell:
     dependencies:

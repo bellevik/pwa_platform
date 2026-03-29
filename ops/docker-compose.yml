@@ -18,7 +18,7 @@ services:
     working_dir: /workspace
     restart: unless-stopped
     command: >-
-      sh -lc "corepack enable && pnpm install --frozen-lockfile && pnpm --filter @pwa-platform/shopping-list-backend start"
+      sh -lc "corepack enable && pnpm --filter @pwa-platform/shopping-list-backend start"
     environment:
       HOST: 0.0.0.0
       NODE_OPTIONS: --experimental-sqlite
