@@ -10,7 +10,7 @@
   "database": "none",
   "pwa": true,
   "offline": true,
-  "icon": "/daily-notes/icons/app-icon.svg",
+  "icon": "/daily-notes/app-icon-192.png",
   "themeColor": "#5f4bb6",
   "backgroundColor": "#f5f0ff",
   "version": 1

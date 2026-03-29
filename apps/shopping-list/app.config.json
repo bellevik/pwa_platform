@@ -10,7 +10,7 @@
   "database": "sqlite",
   "pwa": true,
   "offline": true,
-  "icon": "/shopping-list/icons/app-icon.svg",
+  "icon": "/shopping-list/app-icon-192.png",
   "themeColor": "#28536b",
   "backgroundColor": "#f7f3e8",
   "version": 1

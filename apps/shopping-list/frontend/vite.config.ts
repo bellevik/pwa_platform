@@ -12,6 +12,7 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       injectRegister: 'auto',
+      includeAssets: ['apple-touch-icon.png', 'app-icon-192.png', 'app-icon-512.png', 'app-maskable-512.png'],
       manifest: {
         id: routeBase,
         name: 'Shopping List',
@@ -24,19 +25,25 @@ export default defineConfig({
         theme_color: '#28536b',
         icons: [
           {
-            src: `${routeBase}icons/app-icon-192.png`,
+            src: `${routeBase}apple-touch-icon.png`,
+            sizes: '180x180',
+            type: 'image/png',
+            purpose: 'any'
+          },
+          {
+            src: `${routeBase}app-icon-192.png`,
             sizes: '192x192',
             type: 'image/png',
             purpose: 'any'
           },
           {
-            src: `${routeBase}icons/app-icon-512.png`,
+            src: `${routeBase}app-icon-512.png`,
             sizes: '512x512',
             type: 'image/png',
             purpose: 'any'
           },
           {
-            src: `${routeBase}icons/app-maskable-512.png`,
+            src: `${routeBase}app-maskable-512.png`,
             sizes: '512x512',
             type: 'image/png',
             purpose: 'maskable'

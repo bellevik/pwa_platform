@@ -138,7 +138,7 @@ export default function App() {
           state.registry.apps.map((app) => (
             <a className="app-tile" href={app.route} key={app.slug}>
               <span className="app-icon" style={{ background: app.themeColor }} aria-hidden="true">
-                {app.name.slice(0, 1).toUpperCase()}
+                <img alt="" className="app-icon-image" src={app.icon} />
               </span>
               <span className="app-name">{app.name}</span>
               <span className="app-description">{app.description}</span>

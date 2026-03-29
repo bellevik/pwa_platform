@@ -87,8 +87,8 @@ function enforceAppConfigRules(appDir, config, configPath) {
     throw new Error(`Static-only app '${config.slug}' cannot set hasDatabase to true in ${relative(configPath)}`);
   }
 
-  if (config.icon.startsWith(`/${config.slug}/icons/`) === false) {
-    throw new Error(`App icon must stay within '/${config.slug}/icons/' in ${relative(configPath)}`);
+  if (config.icon.startsWith(`/${config.slug}/`) === false) {
+    throw new Error(`App icon must stay within '/${config.slug}/' in ${relative(configPath)}`);
   }
 }
 
