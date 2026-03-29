@@ -7,3 +7,4 @@ apps/*/data/*.sqlite
 apps/*/data/*.sqlite-shm
 apps/*/data/*.sqlite-wal
 generated/app-registry.json
+.opencode-locks/

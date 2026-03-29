@@ -46,6 +46,15 @@ Do not move app-specific behavior into `shared/` just because two files look sim
 Generated outputs belong here.
 
 - do not hand-edit generated artifacts unless the task explicitly concerns generation output format
+- treat `generated/app-registry.json` as rebuildable output, not source-of-truth content
+
+### Runtime Artifacts
+
+Runtime-owned artifacts must not be committed or hand-maintained as source files.
+
+- `.opencode-locks/` is for transient platform operation locks only
+- `apps/<slug>/data/*.sqlite*` are runtime data files, not source files
+- if these artifacts are stale or broken, regenerate or clear them intentionally instead of editing them by hand
 
 ### `templates/`
 
@@ -67,6 +76,7 @@ Template files belong here.
 2. Update docs and schemas when changing contracts.
 3. Prefer runtime app discovery over manual route bookkeeping.
 4. Keep scripts deterministic and non-interactive.
+5. Treat generated and runtime-owned artifacts as disposable outputs unless the task is explicitly about them.
 
 ## Decision Rules
 
