@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "slug": "daily-notes",
+  "name": "Daily Notes",
+  "description": "Quick capture notes app used to prove the generated static app workflow",
+  "route": "/daily-notes/",
+  "apiBase": "/api/daily-notes/",
+  "hasBackend": false,
+  "hasDatabase": false,
+  "database": "none",
+  "pwa": true,
+  "offline": true,
+  "icon": "/daily-notes/icons/app-icon.svg",
+  "themeColor": "#28536b",
+  "backgroundColor": "#f7f3e8",
+  "version": 1
+}

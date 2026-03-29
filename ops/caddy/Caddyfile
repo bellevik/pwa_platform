@@ -8,18 +8,27 @@
     file_server
   }
 
+  handle /assets/* {
+    root * /srv/shell
+    file_server
+  }
+
   handle /api/shopping-list/* {
     reverse_proxy shopping-list-backend:4300
   }
 
-  handle_path /shopping-list/icons/* {
-    root * /srv/apps/shopping-list/icons
+  @appIcons path_regexp appIcons ^/([a-z0-9-]+)/icons/(.+)$
+  handle @appIcons {
+    uri strip_prefix /{re.appIcons.1}
+    root * /srv/apps/{re.appIcons.1}
     file_server
   }
 
-  handle_path /shopping-list/* {
-    root * /srv/apps/shopping-list/frontend/dist
-    try_files {path} /index.html
+  @appFrontend path_regexp appFrontend ^/([a-z0-9-]+)/(.*)$
+  handle @appFrontend {
+    uri strip_prefix /{re.appFrontend.1}
+    root * /srv/apps/{re.appFrontend.1}/frontend/dist
+    try_files {path} {path}/ /index.html
     file_server
   }
 
