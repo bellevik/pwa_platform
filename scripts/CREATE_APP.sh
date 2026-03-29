@@ -2,11 +2,14 @@
 set -euo pipefail
 
 source "$(dirname "$0")/lib/lock.sh"
+source "$(dirname "$0")/lib/log.sh"
 source "$(dirname "$0")/lib/preflight.sh"
 source "$(dirname "$0")/lib/dry-run.sh"
 
 acquire_platform_lock
 require_base_tooling
+print_operation_banner "CREATE_APP"
+print_active_flag_summary
 
 ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 

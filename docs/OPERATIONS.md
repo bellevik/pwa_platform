@@ -137,6 +137,11 @@ The operations scripts support a small set of environment flags for repeated loc
 - build and verification flows require the base toolchain
 - runtime flows additionally require Docker and HTTP tooling
 
+## Operator Diagnostics
+
+- root operations scripts print a clear operation banner when they start
+- root operations scripts print the active optimization and safety flags at the beginning of the run
+
 ## Future Hardening Targets
 
 - health checks in Compose

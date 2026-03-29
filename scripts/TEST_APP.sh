@@ -3,6 +3,7 @@ set -euo pipefail
 
 source "$(dirname "$0")/lib/common.sh"
 source "$(dirname "$0")/lib/dry-run.sh"
+source "$(dirname "$0")/lib/log.sh"
 source "$(dirname "$0")/lib/lock.sh"
 source "$(dirname "$0")/lib/preflight.sh"
 
@@ -16,6 +17,8 @@ slug="$1"
 ROOT_DIR="$(repo_root)"
 
 ensure_app_exists "$slug"
+print_operation_banner "TEST_APP $slug"
+print_active_flag_summary
 
 printf 'Running app test script for %s...\n' "$slug"
 run_bash_script "$(app_dir "$slug")/TEST.sh"

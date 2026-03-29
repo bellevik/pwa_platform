@@ -4,6 +4,7 @@ set -euo pipefail
 source "$(dirname "$0")/lib/common.sh"
 source "$(dirname "$0")/lib/build.sh"
 source "$(dirname "$0")/lib/dry-run.sh"
+source "$(dirname "$0")/lib/log.sh"
 source "$(dirname "$0")/lib/runtime.sh"
 source "$(dirname "$0")/lib/lock.sh"
 source "$(dirname "$0")/lib/preflight.sh"
@@ -18,6 +19,8 @@ slug="$1"
 ROOT_DIR="$(repo_root)"
 
 ensure_app_exists "$slug"
+print_operation_banner "RESTART_APP $slug"
+print_active_flag_summary
 
 if [ "${PWA_PLATFORM_SKIP_BUILD:-0}" = "1" ]; then
   printf 'Skipping app rebuild because PWA_PLATFORM_SKIP_BUILD=1.\n'
