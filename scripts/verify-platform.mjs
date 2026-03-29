@@ -2,6 +2,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import process from 'node:process';
 import { spawnSync } from 'node:child_process';
+import { assertLiveRoute, isPlatformRuntimeActive } from './verify-runtime.mjs';
 
 const rootDir = process.cwd();
 
@@ -32,6 +33,16 @@ for (const app of registry.apps) {
 
   if (result.status !== 0) {
     throw new Error(`App verification failed for '${app.slug}'`);
+  }
+}
+
+if (isPlatformRuntimeActive(rootDir)) {
+  await assertLiveRoute('http://127.0.0.1/', 'shell');
+  await assertLiveRoute('http://127.0.0.1/manifest.webmanifest', 'shell manifest');
+  await assertLiveRoute('http://127.0.0.1/generated/app-registry.json', 'generated registry');
+
+  for (const app of registry.apps) {
+    await assertLiveRoute(`http://127.0.0.1${app.route}`, `app '${app.slug}' frontend`);
   }
 }
 

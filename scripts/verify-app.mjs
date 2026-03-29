@@ -3,6 +3,7 @@ import path from 'node:path';
 import process from 'node:process';
 import { spawn, spawnSync } from 'node:child_process';
 import Ajv2020 from 'ajv/dist/2020.js';
+import { assertLiveRoute, isPlatformRuntimeActive } from './verify-runtime.mjs';
 
 const slug = process.argv[2];
 
@@ -58,6 +59,15 @@ await fs.access(path.join(appDir, 'frontend', 'dist', 'sw.js'));
 
 if (config.hasBackend) {
   await verifyBackendHealth(appDir, slug);
+}
+
+if (isPlatformRuntimeActive(rootDir)) {
+  await assertLiveRoute(`http://127.0.0.1${config.route}`, `app '${slug}' frontend`);
+  await assertLiveRoute(`http://127.0.0.1${config.route}manifest.webmanifest`, `app '${slug}' manifest`);
+
+  if (config.hasBackend) {
+    await assertLiveRoute(`http://127.0.0.1${config.apiBase}health/`, `app '${slug}' backend`);
+  }
 }
 
 process.stdout.write(`App verification passed for '${slug}'.\n`);
