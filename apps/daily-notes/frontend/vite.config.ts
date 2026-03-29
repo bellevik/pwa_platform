@@ -20,8 +20,8 @@ export default defineConfig({
         start_url: routeBase,
         scope: routeBase,
         display: 'standalone',
-        background_color: '#f7f3e8',
-        theme_color: '#28536b',
+        background_color: '#f5f0ff',
+        theme_color: '#5f4bb6',
         icons: [
           {
             src: `${routeBase}icons/app-icon.svg`,

@@ -133,11 +133,19 @@ export default function App() {
   const handleToggle = async (id: string) => {
     await toggleItem(id);
     await refreshSnapshot();
+
+    if (getCurrentNetworkStatus()) {
+      void runSync('manual');
+    }
   };
 
   const handleDelete = async (id: string) => {
     await deleteItem(id);
     await refreshSnapshot();
+
+    if (getCurrentNetworkStatus()) {
+      void runSync('manual');
+    }
   };
 
   const handleRetryFailed = async () => {

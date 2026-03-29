@@ -11,7 +11,7 @@
   "pwa": true,
   "offline": true,
   "icon": "/daily-notes/icons/app-icon.svg",
-  "themeColor": "#28536b",
-  "backgroundColor": "#f7f3e8",
+  "themeColor": "#5f4bb6",
+  "backgroundColor": "#f5f0ff",
   "version": 1
 }

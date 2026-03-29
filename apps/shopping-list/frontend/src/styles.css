@@ -12,6 +12,14 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+html {
+  min-height: 100%;
+  background:
+    radial-gradient(circle at top left, rgba(255, 211, 142, 0.5), transparent 28%),
+    radial-gradient(circle at bottom right, rgba(86, 149, 133, 0.24), transparent 30%),
+    linear-gradient(180deg, #fffaf1 0%, #f7eedf 48%, #f2e4cb 100%);
+}
+
 * {
   box-sizing: border-box;
 }
@@ -20,6 +28,8 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
+  min-height: 100svh;
+  background: transparent;
 }
 
 button,
@@ -29,12 +39,15 @@ input {
 
 #root {
   min-height: 100vh;
+  min-height: 100svh;
 }
 
 .shopping-list-app {
   width: min(1120px, calc(100vw - 2rem));
   margin: 0 auto;
-  padding: 1.5rem 0 4rem;
+  min-height: 100vh;
+  min-height: 100svh;
+  padding: calc(env(safe-area-inset-top, 0px) + 1.5rem) 0 calc(env(safe-area-inset-bottom, 0px) + 4rem);
 }
 
 .hero-card,
@@ -398,7 +411,7 @@ h2 {
 @media (max-width: 640px) {
   .shopping-list-app {
     width: min(100vw - 1.25rem, 100%);
-    padding-top: 1.1rem;
+    padding-top: calc(env(safe-area-inset-top, 0px) + 1.1rem);
   }
 
   .panel-heading,

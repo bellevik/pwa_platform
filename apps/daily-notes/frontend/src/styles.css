@@ -6,6 +6,13 @@
     linear-gradient(180deg, #fcf7ef 0%, #f2eadf 100%);
 }
 
+html {
+  min-height: 100%;
+  background:
+    radial-gradient(circle at top left, rgba(244, 162, 97, 0.35), transparent 28%),
+    linear-gradient(180deg, #fcf7ef 0%, #f2eadf 100%);
+}
+
 * {
   box-sizing: border-box;
 }
@@ -14,16 +21,21 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
+  min-height: 100svh;
+  background: transparent;
 }
 
 #root {
   min-height: 100vh;
+  min-height: 100svh;
 }
 
 .app-shell {
   width: min(960px, calc(100vw - 2rem));
   margin: 0 auto;
-  padding: 2rem 0 4rem;
+  min-height: 100vh;
+  min-height: 100svh;
+  padding: calc(env(safe-area-inset-top, 0px) + 2rem) 0 calc(env(safe-area-inset-bottom, 0px) + 4rem);
 }
 
 .hero,
@@ -86,6 +98,6 @@ h1 {
 @media (max-width: 640px) {
   .app-shell {
     width: min(100vw - 1.25rem, 100%);
-    padding-top: 1.25rem;
+    padding-top: calc(env(safe-area-inset-top, 0px) + 1.25rem);
   }
 }
