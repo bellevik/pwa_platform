@@ -126,6 +126,9 @@ The operations scripts support a small set of environment flags for repeated loc
 - root operations scripts take a shared platform lock under `.opencode-locks/`
 - this prevents concurrent agents from rebuilding, restarting, testing, or verifying the platform at the same time
 - nested script calls are lock-aware and reuse the current lock instead of deadlocking
+- stale locks are recovered automatically when the recorded lock PID is no longer alive
+- timeout failures print the last known lock metadata so an operator can see which script likely held the lock
+- if automatic recovery cannot resolve the issue, remove the specific lock directory under `.opencode-locks/` and rerun the command
 
 ## Future Hardening Targets
 
