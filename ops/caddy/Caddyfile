@@ -1,7 +1,8 @@
-:80 {
+(app_platform_routes) {
   encode zstd gzip
 
   redir /shopping-list /shopping-list/ 308
+  redir /daily-notes /daily-notes/ 308
 
   handle /generated/* {
     root * /srv
@@ -37,4 +38,13 @@
     try_files {path} /index.html
     file_server
   }
+}
+
+:80 {
+  import app_platform_routes
+}
+
+:443 {
+  tls /etc/caddy/certs/pwa-platform-local.crt /etc/caddy/certs/pwa-platform-local.key
+  import app_platform_routes
 }

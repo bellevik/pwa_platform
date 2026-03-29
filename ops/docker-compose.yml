@@ -7,8 +7,10 @@ services:
         condition: service_started
     ports:
       - "80:80"
+      - "443:443"
     volumes:
       - ./caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./caddy/certs:/etc/caddy/certs:ro
       - ../shell/dist:/srv/shell:ro
       - ../generated:/srv/generated:ro
       - ../apps:/srv/apps:ro
