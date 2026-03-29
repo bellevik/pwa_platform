@@ -130,6 +130,12 @@ The operations scripts support a small set of environment flags for repeated loc
 - timeout failures print the last known lock metadata so an operator can see which script likely held the lock
 - if automatic recovery cannot resolve the issue, remove the specific lock directory under `.opencode-locks/` and rerun the command
 
+## Preflight Checks
+
+- root operations scripts fail fast when required external tools like `node`, `pnpm`, `python3`, `docker`, or `curl` are missing
+- build and verification flows require the base toolchain
+- runtime flows additionally require Docker and HTTP tooling
+
 ## Future Hardening Targets
 
 - health checks in Compose

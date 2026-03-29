@@ -5,8 +5,11 @@ source "$(dirname "$0")/lib/common.sh"
 source "$(dirname "$0")/lib/build.sh"
 source "$(dirname "$0")/lib/runtime.sh"
 source "$(dirname "$0")/lib/lock.sh"
+source "$(dirname "$0")/lib/preflight.sh"
 
 acquire_platform_lock
+require_base_tooling
+require_runtime_tooling
 
 require_app_slug "$@"
 

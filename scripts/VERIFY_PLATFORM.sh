@@ -2,8 +2,10 @@
 set -euo pipefail
 
 source "$(dirname "$0")/lib/lock.sh"
+source "$(dirname "$0")/lib/preflight.sh"
 
 acquire_platform_lock
+require_base_tooling
 
 printf 'Generating app registry...\n'
 bash scripts/REGISTER_APPS.sh
