@@ -2,10 +2,11 @@
   color-scheme: light;
   font-family: "Avenir Next", "Segoe UI", sans-serif;
   color: #1f2933;
-  background:
+  --page-background:
     radial-gradient(circle at top left, rgba(255, 211, 142, 0.5), transparent 28%),
     radial-gradient(circle at bottom right, rgba(86, 149, 133, 0.24), transparent 30%),
     linear-gradient(180deg, #fffaf1 0%, #f7eedf 48%, #f2e4cb 100%);
+  background: var(--page-background);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -14,10 +15,7 @@
 
 html {
   min-height: 100%;
-  background:
-    radial-gradient(circle at top left, rgba(255, 211, 142, 0.5), transparent 28%),
-    radial-gradient(circle at bottom right, rgba(86, 149, 133, 0.24), transparent 30%),
-    linear-gradient(180deg, #fffaf1 0%, #f7eedf 48%, #f2e4cb 100%);
+  background: var(--page-background);
 }
 
 * {
@@ -29,7 +27,7 @@ body {
   min-width: 320px;
   min-height: 100vh;
   min-height: 100svh;
-  background: transparent;
+  background: var(--page-background);
 }
 
 button,
@@ -40,6 +38,7 @@ input {
 #root {
   min-height: 100vh;
   min-height: 100svh;
+  background: var(--page-background);
 }
 
 .shopping-list-app {
@@ -47,7 +46,7 @@ input {
   margin: 0 auto;
   min-height: 100vh;
   min-height: 100svh;
-  padding: calc(env(safe-area-inset-top, 0px) + 1.5rem) 0 calc(env(safe-area-inset-bottom, 0px) + 4rem);
+  padding: max(1rem, env(safe-area-inset-top, 0px)) 0 max(2rem, env(safe-area-inset-bottom, 0px));
 }
 
 .hero-card,
@@ -411,7 +410,7 @@ h2 {
 @media (max-width: 640px) {
   .shopping-list-app {
     width: min(100vw - 1.25rem, 100%);
-    padding-top: calc(env(safe-area-inset-top, 0px) + 1.1rem);
+    padding-top: max(0.35rem, env(safe-area-inset-top, 0px));
   }
 
   .panel-heading,

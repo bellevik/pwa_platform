@@ -10,7 +10,7 @@ export function buildShoppingListServer(options = {}) {
 
   fs.mkdirSync(path.dirname(databasePath), { recursive: true });
 
-  const server = Fastify({ logger });
+  const server = Fastify({ logger, ignoreTrailingSlash: true });
   const db = new DatabaseSync(databasePath);
 
   db.exec(`

@@ -1,5 +1,6 @@
 export { getPersistentSession } from './session';
 export type { PersistentSession } from './session';
+export { createUuid } from './uuid';
 export {
   buildSyncRequest,
   reconcileSyncOperations,

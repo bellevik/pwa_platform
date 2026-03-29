@@ -21,8 +21,6 @@ const initialSnapshot: ShoppingListSnapshot = {
   serverVersion: 0
 };
 
-const debugInfo: ShoppingListDebugInfo = getSyncDebugInfo();
-
 const formatTimestamp = (value: string | null): string => {
   if (!value) {
     return 'Never';
@@ -46,6 +44,7 @@ export default function App() {
   const [isSyncing, setIsSyncing] = useState(false);
   const [syncMessage, setSyncMessage] = useState<string | null>(null);
   const [isOnline, setIsOnline] = useState<boolean>(getCurrentNetworkStatus());
+  const debugInfo = useMemo<ShoppingListDebugInfo>(() => getSyncDebugInfo(), []);
 
   const refreshSnapshot = useCallback(async () => {
     setSnapshot(await getSnapshot());

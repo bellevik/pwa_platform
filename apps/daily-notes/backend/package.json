@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "node --watch src/server.mjs",
-    "build": "node -e \"console.log('No backend build step yet for daily-notes')\"",
+    "build": "node --check src/server.mjs",
     "start": "node src/server.mjs",
     "lint": "node -e \"console.log('No backend lint yet for daily-notes')\"",
     "test": "node -e \"console.log('No backend tests yet for daily-notes')\"",

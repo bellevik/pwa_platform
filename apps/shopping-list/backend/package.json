@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "node --watch src/server.mjs",
-    "build": "node -e \"console.log('No backend build step yet for shopping-list')\"",
+    "build": "node --check src/app.mjs && node --check src/server.mjs && node --check src/sync.test.mjs",
     "start": "node src/server.mjs",
     "lint": "node -e \"console.log('No backend lint yet for shopping-list')\"",
     "test": "node --experimental-sqlite --test src/**/*.test.mjs",

@@ -1,6 +1,7 @@
 import Dexie, { Table } from 'dexie';
 import {
   buildSyncRequest,
+  createUuid,
   getPersistentSession,
   reconcileSyncOperations,
   sortOperationsByTimestamp
@@ -100,7 +101,7 @@ export async function addItem(text: string): Promise<void> {
   const session = getSession();
   const timestamp = new Date().toISOString();
   const item: ShoppingItem = {
-    id: crypto.randomUUID(),
+    id: createUuid(),
     text,
     completed: false,
     createdAt: timestamp,
@@ -282,7 +283,7 @@ function createOperation(
   clientTimestamp: string
 ): ShoppingOperation {
   return {
-    id: crypto.randomUUID(),
+    id: createUuid(),
     entityId,
     type,
     payload,
