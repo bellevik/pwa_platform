@@ -13,7 +13,11 @@ ensure_app_exists "$slug"
 printf 'Running app test script for %s...\n' "$slug"
 bash "$(app_dir "$slug")/TEST.sh"
 
-printf 'Running app verification for %s...\n' "$slug"
-bash "$ROOT_DIR/scripts/VERIFY_APP.sh" "$slug"
+if [ "${PWA_PLATFORM_SKIP_APP_VERIFY:-0}" = "1" ]; then
+  printf 'Skipping app verification for %s because PWA_PLATFORM_SKIP_APP_VERIFY=1.\n' "$slug"
+else
+  printf 'Running app verification for %s...\n' "$slug"
+  bash "$ROOT_DIR/scripts/VERIFY_APP.sh" "$slug"
+fi
 
 printf 'TEST_APP completed for %s.\n' "$slug"

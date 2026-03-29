@@ -11,7 +11,7 @@ while IFS= read -r slug; do
   fi
 
   printf 'Testing app: %s\n' "$slug"
-  bash "$ROOT_DIR/scripts/TEST_APP.sh" "$slug"
+  PWA_PLATFORM_SKIP_APP_VERIFY=1 bash "$ROOT_DIR/scripts/TEST_APP.sh" "$slug"
 done < <(list_app_slugs)
 
 printf 'Running final platform verification...\n'

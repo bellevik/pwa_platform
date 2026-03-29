@@ -112,6 +112,14 @@ Must verify at minimum:
 - explain failure causes clearly
 - make verification failures actionable
 
+## Optimization Flags
+
+The operations scripts support a small set of environment flags for repeated local or remote runs:
+
+- `PWA_PLATFORM_SKIP_INSTALL=1`: skip `pnpm install` in build flows when dependencies are already current
+- `PWA_PLATFORM_SKIP_BUILD=1`: skip rebuild work in runtime restart/start flows when assets are already current
+- `PWA_PLATFORM_SKIP_APP_VERIFY=1`: skip per-app verification in `TEST_APP.sh`; `TEST_ALL.sh` uses this internally before its final platform verification
+
 ## Future Hardening Targets
 
 - health checks in Compose
