@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-"$(dirname "$0")/STOP.sh"
-"$(dirname "$0")/START.sh"
+APP_DIR="$(cd "$(dirname "$0")" && pwd)"
+ROOT_DIR="$(cd "$APP_DIR/../.." && pwd)"
+
+bash "$ROOT_DIR/scripts/RESTART_APP.sh" __APP_SLUG__
+
+printf 'RESTART completed for __APP_SLUG__.\n'
