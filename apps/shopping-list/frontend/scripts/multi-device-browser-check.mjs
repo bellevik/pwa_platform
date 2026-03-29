@@ -1,18 +1,7 @@
 import assert from 'node:assert/strict';
-import { spawnSync } from 'node:child_process';
-import path from 'node:path';
-import process from 'node:process';
-import { chromium } from 'playwright';
+import { baseUrl, prepareShoppingListBrowserEnvironment } from './test-environment.mjs';
 
-const rootDir = path.resolve(import.meta.dirname, '../../../..');
-const composeArgs = ['compose', '-f', 'ops/docker-compose.yml'];
-const baseUrl = process.env.PWA_PLATFORM_BASE_URL || 'http://127.0.0.1';
-
-runCommand('docker', [...composeArgs, 'up', '-d', '--force-recreate']);
-await waitForHttp(`${baseUrl}/shopping-list/`);
-await waitForHttp(`${baseUrl}/api/shopping-list/health/`);
-
-const browser = await chromium.launch({ headless: true });
+const { browser } = await prepareShoppingListBrowserEnvironment();
 const itemName = `Shared item ${Date.now()}`;
 
 try {
@@ -68,32 +57,6 @@ process.stdout.write('Multi-device browser validation passed for shopping-list.\
 async function expectText(locator, expected) {
   const value = await locator.textContent();
   assert.equal(value?.trim(), expected);
-}
-
-async function waitForPendingZero(page) {
-  await waitForPendingCount(page, '0');
-}
-
-async function waitForPendingCount(page, expected) {
-  await page.waitForFunction((expectedCount) => {
-    const strong = document.querySelector('.debug-grid div strong');
-    return strong?.textContent?.trim() === expectedCount;
-  }, expected);
-}
-
-async function waitForItemDone(locator) {
-  await locator.waitFor({ state: 'visible' });
-
-  const startedAt = Date.now();
-  while (Date.now() - startedAt < 10000) {
-    const className = await locator.getAttribute('class');
-    if (className?.includes('item-card--done')) {
-      return;
-    }
-    await new Promise((resolve) => setTimeout(resolve, 250));
-  }
-
-  throw new Error('Timed out waiting for canonical completed state to appear');
 }
 
 async function seedCanonicalItem(itemName) {
@@ -200,36 +163,4 @@ async function refreshUntilItemDone(page, itemCard) {
   }
 
   throw new Error('Timed out waiting for device A to reflect the canonical completed state');
-}
-
-function runCommand(command, args) {
-  const result = spawnSync(command, args, {
-    cwd: rootDir,
-    stdio: 'inherit',
-    shell: process.platform === 'win32'
-  });
-
-  if (result.status !== 0) {
-    throw new Error(`Command failed: ${command} ${args.join(' ')}`);
-  }
-}
-
-async function waitForHttp(url) {
-  const startedAt = Date.now();
-  const timeoutMs = 60000;
-
-  while (Date.now() - startedAt < timeoutMs) {
-    try {
-      const response = await fetch(url);
-      if (response.ok) {
-        return;
-      }
-    } catch {
-      // Retry until timeout.
-    }
-
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-  }
-
-  throw new Error(`Timed out waiting for ${url}`);
 }

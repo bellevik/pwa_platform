@@ -1,18 +1,7 @@
 import assert from 'node:assert/strict';
-import { spawnSync } from 'node:child_process';
-import path from 'node:path';
-import process from 'node:process';
-import { chromium } from 'playwright';
+import { prepareShoppingListBrowserEnvironment } from './test-environment.mjs';
 
-const rootDir = path.resolve(import.meta.dirname, '../../../..');
-const composeArgs = ['compose', '-f', 'ops/docker-compose.yml'];
-const baseUrl = process.env.PWA_PLATFORM_BASE_URL || 'http://127.0.0.1';
-
-runCommand('docker', [...composeArgs, 'up', '-d', '--force-recreate']);
-await waitForHttp(`${baseUrl}/shopping-list/`);
-await waitForHttp(`${baseUrl}/api/shopping-list/health/`);
-
-const browser = await chromium.launch({ headless: true });
+const { baseUrl, browser } = await prepareShoppingListBrowserEnvironment();
 
 try {
   const context = await browser.newContext({
@@ -67,35 +56,3 @@ try {
 }
 
 process.stdout.write('Offline browser validation passed for shopping-list.\n');
-
-function runCommand(command, args) {
-  const result = spawnSync(command, args, {
-    cwd: rootDir,
-    stdio: 'inherit',
-    shell: process.platform === 'win32'
-  });
-
-  if (result.status !== 0) {
-    throw new Error(`Command failed: ${command} ${args.join(' ')}`);
-  }
-}
-
-async function waitForHttp(url) {
-  const startedAt = Date.now();
-  const timeoutMs = 60000;
-
-  while (Date.now() - startedAt < timeoutMs) {
-    try {
-      const response = await fetch(url);
-      if (response.ok) {
-        return;
-      }
-    } catch {
-      // Retry until timeout.
-    }
-
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-  }
-
-  throw new Error(`Timed out waiting for ${url}`);
-}
