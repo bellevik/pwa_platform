@@ -31,35 +31,8 @@ export type ShoppingListSnapshot = {
   serverVersion: number;
 };
 
-export type SyncRequestBody = {
-  schemaVersion: number;
-  clientId: string;
-  deviceId: string;
-  lastKnownServerVersion: number;
-  operations: Array<{
-    id: string;
-    entityId: string;
-    type: ShoppingOperationType;
-    payload: {
-      text?: string;
-      completed?: boolean;
-    };
-    clientTimestamp: string;
-    deviceId: string;
-    status: 'pending';
-  }>;
-};
+export type SyncRequestBody = import('@pwa-platform/offline').SyncRequest<ShoppingOperation>;
 
-export type SyncResponseBody = {
-  schemaVersion: number;
-  serverVersion: number;
-  ackedOperationIds: string[];
-  rejectedOperations: Array<{
-    id: string;
-    reason: string;
-  }>;
-  state: {
-    items: ShoppingItem[];
-  };
-  serverTimestamp: string;
-};
+export type SyncResponseBody = import('@pwa-platform/offline').SyncResponse<{
+  items: ShoppingItem[];
+}>;

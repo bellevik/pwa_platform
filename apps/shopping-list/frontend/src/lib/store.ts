@@ -1,5 +1,10 @@
 import Dexie, { Table } from 'dexie';
-import { getPersistentSession } from '@pwa-platform/offline';
+import {
+  buildSyncRequest,
+  getPersistentSession,
+  reconcileSyncOperations,
+  sortOperationsByTimestamp
+} from '@pwa-platform/offline';
 import type {
   ShoppingItem,
   ShoppingListSnapshot,
@@ -151,25 +156,16 @@ export async function retryFailedOperations(): Promise<void> {
 export async function syncItems(): Promise<SyncResult> {
   const session = getSession();
   const allOperations = await db.operations.toArray();
-  const pendingOperations = allOperations
-    .filter((operation) => operation.status === 'pending')
-    .sort((left, right) => left.clientTimestamp.localeCompare(right.clientTimestamp));
+  const pendingOperations = sortOperationsByTimestamp(
+    allOperations.filter((operation) => operation.status === 'pending')
+  );
 
-  const requestBody: SyncRequestBody = {
-    schemaVersion: 1,
+  const requestBody: SyncRequestBody = buildSyncRequest({
     clientId: session.clientId,
     deviceId: session.deviceId,
     lastKnownServerVersion: Number((await getMeta(META_SERVER_VERSION)) ?? '0'),
-    operations: pendingOperations.map((operation) => ({
-      id: operation.id,
-      entityId: operation.entityId,
-      type: operation.type,
-      payload: operation.payload,
-      clientTimestamp: operation.clientTimestamp,
-      deviceId: operation.deviceId,
-      status: 'pending'
-    }))
-  };
+    operations: pendingOperations
+  });
 
   const response = await fetch('/api/shopping-list/sync/', {
     method: 'POST',
@@ -192,30 +188,13 @@ export async function syncItems(): Promise<SyncResult> {
 }
 
 async function applySyncResponse(payload: SyncResponseBody): Promise<void> {
-  const rejectedById = new Map(payload.rejectedOperations.map((entry) => [entry.id, entry.reason]));
-  const ackedIds = new Set(payload.ackedOperationIds);
-
   await db.transaction('rw', db.items, db.operations, db.meta, async () => {
     const liveOperations = await db.operations.toArray();
-    const remainingOperations = liveOperations
-      .map((operation) => {
-        if (ackedIds.has(operation.id)) {
-          return null;
-        }
-
-        const reason = rejectedById.get(operation.id);
-
-        if (reason) {
-          return {
-            ...operation,
-            status: 'failed' as const,
-            error: reason
-          };
-        }
-
-        return operation;
-      })
-      .filter((operation): operation is ShoppingOperation => operation !== null);
+    const remainingOperations = reconcileSyncOperations({
+      operations: liveOperations,
+      ackedOperationIds: payload.ackedOperationIds,
+      rejectedOperations: payload.rejectedOperations
+    });
 
     await db.items.clear();
 

@@ -1,4 +1,5 @@
 import { FormEvent, useCallback, useEffect, useMemo, useState } from 'react';
+import { getCurrentNetworkStatus, subscribeToNetworkStatus } from '@pwa-platform/offline';
 import {
   addItem,
   deleteItem,
@@ -39,7 +40,7 @@ export default function App() {
   const [draft, setDraft] = useState('');
   const [isSyncing, setIsSyncing] = useState(false);
   const [syncMessage, setSyncMessage] = useState<string | null>(null);
-  const [isOnline, setIsOnline] = useState<boolean>(navigator.onLine);
+  const [isOnline, setIsOnline] = useState<boolean>(getCurrentNetworkStatus());
 
   const refreshSnapshot = useCallback(async () => {
     setSnapshot(await getSnapshot());
@@ -47,7 +48,7 @@ export default function App() {
 
   const runSync = useCallback(
     async (reason: 'initial' | 'manual' | 'reconnect') => {
-      if (!navigator.onLine) {
+      if (!getCurrentNetworkStatus()) {
         setSyncMessage('Offline mode: changes stay local until the network returns.');
         return;
       }
@@ -80,23 +81,16 @@ export default function App() {
   }, [refreshSnapshot, runSync]);
 
   useEffect(() => {
-    const handleOnline = () => {
-      setIsOnline(true);
-      void runSync('reconnect');
-    };
+    return subscribeToNetworkStatus((nextOnline) => {
+      setIsOnline(nextOnline);
 
-    const handleOffline = () => {
-      setIsOnline(false);
+      if (nextOnline) {
+        void runSync('reconnect');
+        return;
+      }
+
       setSyncMessage('Offline mode: changes stay local until the network returns.');
-    };
-
-    window.addEventListener('online', handleOnline);
-    window.addEventListener('offline', handleOffline);
-
-    return () => {
-      window.removeEventListener('online', handleOnline);
-      window.removeEventListener('offline', handleOffline);
-    };
+    });
   }, [runSync]);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -112,7 +106,7 @@ export default function App() {
     setDraft('');
     await refreshSnapshot();
 
-    if (navigator.onLine) {
+    if (getCurrentNetworkStatus()) {
       void runSync('manual');
     }
   };
@@ -131,7 +125,7 @@ export default function App() {
     await retryFailedOperations();
     await refreshSnapshot();
 
-    if (navigator.onLine) {
+    if (getCurrentNetworkStatus()) {
       void runSync('manual');
     }
   };
