@@ -8,7 +8,7 @@ const rootDir = path.resolve(import.meta.dirname, '../../../..');
 const composeArgs = ['compose', '-f', 'ops/docker-compose.yml'];
 const baseUrl = process.env.PWA_PLATFORM_BASE_URL || 'http://127.0.0.1';
 
-runCommand('docker', [...composeArgs, 'up', '-d']);
+runCommand('docker', [...composeArgs, 'up', '-d', '--force-recreate']);
 await waitForHttp(`${baseUrl}/shopping-list/`);
 await waitForHttp(`${baseUrl}/api/shopping-list/health/`);
 

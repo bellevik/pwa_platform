@@ -6,6 +6,7 @@ import {
   sortOperationsByTimestamp
 } from '@pwa-platform/offline';
 import type {
+  ShoppingListDebugInfo,
   ShoppingItem,
   ShoppingListSnapshot,
   ShoppingOperation,
@@ -49,6 +50,7 @@ class ShoppingListDatabase extends Dexie {
 }
 
 const db = new ShoppingListDatabase();
+const DATABASE_NAME = 'shopping-list-db';
 const META_LAST_SYNC = 'lastSyncAt';
 const META_SERVER_VERSION = 'serverVersion';
 const SESSION_STORAGE_KEY = 'shopping-list.session';
@@ -80,6 +82,17 @@ export async function getSnapshot(): Promise<ShoppingListSnapshot> {
     ),
     lastSyncAt,
     serverVersion: Number(serverVersion ?? '0')
+  };
+}
+
+export function getSyncDebugInfo(): ShoppingListDebugInfo {
+  const session = getSession();
+
+  return {
+    clientId: session.clientId,
+    deviceId: session.deviceId,
+    storageKey: SESSION_STORAGE_KEY,
+    databaseName: DATABASE_NAME
   };
 }
 

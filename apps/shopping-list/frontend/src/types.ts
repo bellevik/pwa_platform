@@ -32,6 +32,13 @@ export type ShoppingListSnapshot = {
   serverVersion: number;
 };
 
+export type ShoppingListDebugInfo = {
+  clientId: string;
+  deviceId: string;
+  storageKey: string;
+  databaseName: string;
+};
+
 export type SyncRequestBody = import('@pwa-platform/offline').SyncRequest<ShoppingOperation>;
 
 export type SyncResponseBody = import('@pwa-platform/offline').SyncResponse<{

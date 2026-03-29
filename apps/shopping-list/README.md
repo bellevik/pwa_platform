@@ -47,3 +47,4 @@ Offline-first shopping list with local queue and sync-ready backend
 - sync endpoint: `POST /api/shopping-list/sync/`
 - canonical state endpoint: `GET /api/shopping-list/state/`
 - browser offline validation: `node apps/shopping-list/frontend/scripts/offline-browser-check.mjs`
+- browser multi-device validation: `node apps/shopping-list/frontend/scripts/multi-device-browser-check.mjs`

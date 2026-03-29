@@ -3,13 +3,14 @@ import { getCurrentNetworkStatus, subscribeToNetworkStatus } from '@pwa-platform
 import {
   addItem,
   deleteItem,
+  getSyncDebugInfo,
   refreshFromCanonicalState,
   getSnapshot,
   retryFailedOperations,
   syncItems,
   toggleItem
 } from './lib/store';
-import type { ShoppingListSnapshot } from './types';
+import type { ShoppingListDebugInfo, ShoppingListSnapshot } from './types';
 
 const initialSnapshot: ShoppingListSnapshot = {
   items: [],
@@ -19,6 +20,8 @@ const initialSnapshot: ShoppingListSnapshot = {
   lastSyncAt: null,
   serverVersion: 0
 };
+
+const debugInfo: ShoppingListDebugInfo = getSyncDebugInfo();
 
 const formatTimestamp = (value: string | null): string => {
   if (!value) {
@@ -332,6 +335,22 @@ export default function App() {
             <div>
               <span className="debug-label">Last sync</span>
               <strong>{formatTimestamp(snapshot.lastSyncAt)}</strong>
+            </div>
+            <div>
+              <span className="debug-label">Client ID</span>
+              <strong className="debug-code">{debugInfo.clientId}</strong>
+            </div>
+            <div>
+              <span className="debug-label">Device ID</span>
+              <strong className="debug-code">{debugInfo.deviceId}</strong>
+            </div>
+            <div>
+              <span className="debug-label">Storage key</span>
+              <strong className="debug-code">{debugInfo.storageKey}</strong>
+            </div>
+            <div>
+              <span className="debug-label">IndexedDB</span>
+              <strong className="debug-code">{debugInfo.databaseName}</strong>
             </div>
           </div>
 

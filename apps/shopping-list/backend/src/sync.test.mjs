@@ -274,3 +274,113 @@ test('toggle on a missing entity is rejected cleanly', async () => {
     ]);
   });
 });
+
+test('multiple devices converge on the latest canonical state', async () => {
+  await withServer(async (server) => {
+    const entityId = 'cdcdcdcd-cdcd-4dcd-8dcd-cdcdcdcdcdcd';
+
+    await server.inject({
+      method: 'POST',
+      url: '/api/shopping-list/sync/',
+      payload: {
+        ...makeRequest([
+          {
+            id: 'dadadada-dada-4ada-8ada-dadadadadada',
+            entityId,
+            type: 'item_add',
+            payload: { text: 'Tomatoes' },
+            clientTimestamp: '2026-03-29T17:00:00.000Z',
+            deviceId: 'device-a-device-a-4aaa-8aaa-aaaaaaaaaaaa',
+            status: 'pending'
+          }
+        ]),
+        deviceId: 'device-a-device-a-4aaa-8aaa-aaaaaaaaaaaa'
+      }
+    });
+
+    await server.inject({
+      method: 'POST',
+      url: '/api/shopping-list/sync/',
+      payload: {
+        ...makeRequest([
+          {
+            id: 'dbdbdbdb-dbdb-4bdb-8bdb-dbdbdbdbdbdb',
+            entityId,
+            type: 'item_toggle',
+            payload: { completed: true },
+            clientTimestamp: '2026-03-29T17:02:00.000Z',
+            deviceId: 'device-b-device-b-4bbb-8bbb-bbbbbbbbbbbb',
+            status: 'pending'
+          }
+        ], 1),
+        deviceId: 'device-b-device-b-4bbb-8bbb-bbbbbbbbbbbb'
+      }
+    });
+
+    const response = await server.inject({
+      method: 'GET',
+      url: '/api/shopping-list/state/'
+    });
+
+    assert.equal(response.statusCode, 200);
+    const body = response.json();
+    assert.equal(body.state.items.length, 1);
+    assert.equal(body.state.items[0].completed, true);
+    assert.equal(body.serverVersion, 2);
+  });
+});
+
+test('older delete from another device does not wipe newer state', async () => {
+  await withServer(async (server) => {
+    const entityId = 'edededed-eded-4ded-8ded-edededededed';
+
+    await server.inject({
+      method: 'POST',
+      url: '/api/shopping-list/sync/',
+      payload: makeRequest([
+        {
+          id: 'efefefef-efef-4eef-8eef-efefefefefef',
+          entityId,
+          type: 'item_add',
+          payload: { text: 'Coffee' },
+          clientTimestamp: '2026-03-29T18:00:00.000Z',
+          deviceId: '22222222-2222-4222-8222-222222222222',
+          status: 'pending'
+        },
+        {
+          id: 'f0f0f0f0-f0f0-40f0-80f0-f0f0f0f0f0f0',
+          entityId,
+          type: 'item_toggle',
+          payload: { completed: true },
+          clientTimestamp: '2026-03-29T18:05:00.000Z',
+          deviceId: '22222222-2222-4222-8222-222222222222',
+          status: 'pending'
+        }
+      ])
+    });
+
+    const staleDelete = await server.inject({
+      method: 'POST',
+      url: '/api/shopping-list/sync/',
+      payload: {
+        ...makeRequest([
+          {
+            id: 'f1f1f1f1-f1f1-41f1-81f1-f1f1f1f1f1f1',
+            entityId,
+            type: 'item_delete',
+            payload: {},
+            clientTimestamp: '2026-03-29T18:03:00.000Z',
+            deviceId: '33333333-3333-4333-8333-333333333333',
+            status: 'pending'
+          }
+        ], 2),
+        deviceId: '33333333-3333-4333-8333-333333333333'
+      }
+    });
+
+    assert.equal(staleDelete.statusCode, 200);
+    assert.equal(staleDelete.json().state.items.length, 1);
+    assert.equal(staleDelete.json().state.items[0].text, 'Coffee');
+    assert.equal(staleDelete.json().state.items[0].completed, true);
+  });
+});
