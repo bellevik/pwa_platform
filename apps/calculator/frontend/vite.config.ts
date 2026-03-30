@@ -11,7 +11,7 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      injectRegister: 'auto',
+      injectRegister: false,
       includeAssets: ['apple-touch-icon.png', 'app-icon-192.png', 'app-icon-512.png', 'app-maskable-512.png'],
       manifest: {
         id: routeBase,
@@ -51,7 +51,10 @@ export default defineConfig({
         ]
       },
       workbox: {
-        globPatterns: ['**/*.{js,css,html,svg,png,webmanifest}']
+        cleanupOutdatedCaches: true,
+        clientsClaim: true,
+        globPatterns: ['**/*.{js,css,html,svg,png,webmanifest}'],
+        skipWaiting: true
       }
     })
   ]

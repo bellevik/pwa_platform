@@ -75,6 +75,29 @@ export default function App() {
   const [accentPulse, setAccentPulse] = useState(false);
 
   useEffect(() => {
+    const syncViewportHeight = () => {
+      const viewportHeight = Math.max(window.innerHeight, window.visualViewport?.height ?? 0);
+      const screenHeight = window.matchMedia('(orientation: portrait)').matches
+        ? Math.max(window.screen.height, window.screen.width)
+        : Math.min(window.screen.height, window.screen.width);
+      const fullHeight = Math.max(viewportHeight, screenHeight);
+
+      document.documentElement.style.setProperty('--app-height', `${Math.round(viewportHeight)}px`);
+      document.documentElement.style.setProperty('--app-screen-height', `${Math.round(fullHeight)}px`);
+      document.documentElement.style.setProperty('--app-bottom-gap', `${Math.round(fullHeight - viewportHeight)}px`);
+    };
+
+    syncViewportHeight();
+    window.addEventListener('resize', syncViewportHeight);
+    window.visualViewport?.addEventListener('resize', syncViewportHeight);
+
+    return () => {
+      window.removeEventListener('resize', syncViewportHeight);
+      window.visualViewport?.removeEventListener('resize', syncViewportHeight);
+    };
+  }, []);
+
+  useEffect(() => {
     saveHistory(history);
   }, [history]);
 
@@ -88,6 +111,7 @@ export default function App() {
   }, [accentPulse]);
 
   const preview = useMemo(() => getPreview(expression), [expression]);
+  const visibleHistory = history.slice(0, 4);
 
   const appendValue = (value: string) => {
     setExpression((current) => {
@@ -154,21 +178,23 @@ export default function App() {
 
   return (
     <main className={`calculator-app ${accentPulse ? 'calculator-app--pulse' : ''}`}>
-      <section className="hero-panel">
-        <div>
-          <p className="eyebrow">Calculator</p>
-          <h1>Neural Arc</h1>
-          <p className="hero-copy">
-            A futuristic neumorphic calculator with soft-lit controls, persistent local history,
-            and an offline-first app shell.
-          </p>
-        </div>
-        <div className="status-orb" aria-hidden="true">
-          <span />
-        </div>
-      </section>
+      <section className="app-shell">
+        <header className="app-header">
+          <div>
+            <p className="eyebrow">Calculator PWA</p>
+            <h1>Neural Arc</h1>
+          </div>
+          <div className="header-actions">
+            <div className="status-pill" aria-hidden="true">
+              <span />
+              Offline ready
+            </div>
+            <button className="ghost-button" onClick={() => setHistory([])} type="button">
+              Clear history
+            </button>
+          </div>
+        </header>
 
-      <section className="workspace">
         <article className="display-panel">
           <div className="display-meta">
             <span>Input stream</span>
@@ -180,62 +206,62 @@ export default function App() {
           </div>
         </article>
 
-        <article className="keypad-panel">
-          <div className="keypad-grid">
-            {keypadRows.flat().map((key) => {
-              const variant = ['/', '*', '-', '+', '='].includes(key)
-                ? 'key--accent'
-                : ['AC', 'DEL', '+/-', '%'].includes(key)
-                  ? 'key--muted'
-                  : 'key--default';
+        <section className="workspace">
+          <article className="keypad-panel">
+            <div className="keypad-grid">
+              {keypadRows.flat().map((key) => {
+                const variant = ['/', '*', '-', '+', '='].includes(key)
+                  ? 'key--accent'
+                  : ['AC', 'DEL', '+/-', '%'].includes(key)
+                    ? 'key--muted'
+                    : 'key--default';
 
-              return (
-                <button
-                  className={`key ${variant}`}
-                  key={key}
-                  onClick={() => handleAction(key)}
-                  type="button"
-                >
-                  {key}
-                </button>
-              );
-            })}
-          </div>
-        </article>
-
-        <article className="history-panel">
-          <div className="history-heading">
-            <div>
-              <p className="eyebrow">Recent Results</p>
-              <h2>Local memory</h2>
-            </div>
-            <button className="ghost-button" onClick={() => setHistory([])} type="button">
-              Clear history
-            </button>
-          </div>
-
-          {history.length > 0 ? (
-            <ul className="history-list">
-              {history.map((entry) => (
-                <li key={`${entry.recordedAt}-${entry.expression}`}>
+                return (
                   <button
-                    className="history-entry"
-                    onClick={() => {
-                      setExpression(entry.expression);
-                      setDisplay(entry.result);
-                    }}
+                    className={`key ${variant}`}
+                    key={key}
+                    onClick={() => handleAction(key)}
                     type="button"
                   >
-                    <span>{entry.expression}</span>
-                    <strong>{entry.result}</strong>
+                    {key}
                   </button>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p className="history-empty">Your solved expressions will stay here locally, even offline.</p>
-          )}
-        </article>
+                );
+              })}
+            </div>
+          </article>
+
+          <article className="history-panel">
+            <div className="history-heading">
+              <div>
+                <p className="eyebrow">Recent Results</p>
+                <h2>Local memory</h2>
+              </div>
+              <span className="history-count">{history.length}/{MAX_HISTORY_ENTRIES}</span>
+            </div>
+
+            {visibleHistory.length > 0 ? (
+              <ul className="history-list">
+                {visibleHistory.map((entry) => (
+                  <li key={`${entry.recordedAt}-${entry.expression}`}>
+                    <button
+                      className="history-entry"
+                      onClick={() => {
+                        setExpression(entry.expression);
+                        setDisplay(entry.result);
+                      }}
+                      type="button"
+                    >
+                      <span>{entry.expression}</span>
+                      <strong>{entry.result}</strong>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="history-empty">Recent answers stay local and available offline.</p>
+            )}
+          </article>
+        </section>
       </section>
     </main>
   );
