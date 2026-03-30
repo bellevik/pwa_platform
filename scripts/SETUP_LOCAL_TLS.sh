@@ -67,7 +67,7 @@ distinguished_name = dn
 req_extensions = v3_req
 
 [dn]
-CN = $PRIMARY_HOST
+CN = ${LOCAL_HOSTNAME}.local
 
 [v3_req]
 basicConstraints = CA:FALSE
