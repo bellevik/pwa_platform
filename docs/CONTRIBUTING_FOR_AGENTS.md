@@ -62,6 +62,7 @@ Template files belong here.
 
 - template improvements should make future app generation better
 - do not turn templates into one-off app implementations
+- `templates/working-pwa-reference/` is a non-registered reference copy of a known-good app; use it for patterns, not as runtime app content
 
 ## Required Workflow For App Work
 

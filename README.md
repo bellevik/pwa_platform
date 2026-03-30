@@ -24,3 +24,8 @@ The repository is being implemented in this order:
 5. shell bootstrap
 
 See `docs/ARCHITECTURE.md` for the canonical platform design.
+
+## Device Notes
+
+- iPhone PWA install/offline testing is documented in `docs/IPHONE_PWA_NOTES.md`
+- a known-good reference app for future app creation sessions will live under `templates/working-pwa-reference/`

@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "slug": "shopping-list",
+  "name": "Shopping List",
+  "description": "Offline-first shopping list with local queue and sync-ready backend",
+  "route": "/shopping-list/",
+  "apiBase": "/api/shopping-list/",
+  "hasBackend": true,
+  "hasDatabase": true,
+  "database": "sqlite",
+  "pwa": true,
+  "offline": true,
+  "icon": "/shopping-list/app-icon-192.png",
+  "themeColor": "#28536b",
+  "backgroundColor": "#f7f3e8",
+  "version": 1
+}
