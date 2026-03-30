@@ -1,0 +1,17 @@
+{
+  "name": "@pwa-platform/calculator-backend",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch src/server.mjs",
+    "build": "node --check src/server.mjs",
+    "start": "node src/server.mjs",
+    "lint": "node -e \"console.log('No backend lint yet for calculator')\"",
+    "test": "node -e \"console.log('No backend tests yet for calculator')\"",
+    "typecheck": "node -e \"console.log('No backend typecheck yet for calculator')\""
+  },
+  "dependencies": {
+    "fastify": "^5.3.3"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "slug": "calculator",
+  "name": "Calculator",
+  "description": "Futuristic neumorphic calculator with persistent local history and tactile sci-fi controls",
+  "route": "/calculator/",
+  "apiBase": "/api/calculator/",
+  "hasBackend": false,
+  "hasDatabase": false,
+  "database": "none",
+  "pwa": true,
+  "offline": true,
+  "icon": "/calculator/app-icon-192.png",
+  "themeColor": "#182235",
+  "backgroundColor": "#0d1422",
+  "version": 1
+}

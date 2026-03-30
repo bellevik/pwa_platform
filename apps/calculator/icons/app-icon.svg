@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bg" x1="0%" x2="100%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#2b3d63" />
+      <stop offset="100%" stop-color="#121b2c" />
+    </linearGradient>
+    <linearGradient id="glow" x1="0%" x2="100%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#79d7ff" />
+      <stop offset="100%" stop-color="#4b8cff" />
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="124" fill="url(#bg)" />
+  <rect x="106" y="88" width="300" height="336" rx="72" fill="#1b2740" />
+  <rect x="142" y="126" width="228" height="92" rx="30" fill="#0f1626" />
+  <rect x="156" y="144" width="112" height="18" rx="9" fill="#476181" />
+  <rect x="156" y="176" width="176" height="24" rx="12" fill="url(#glow)" />
+  <circle cx="182" cy="282" r="28" fill="#22334d" />
+  <circle cx="256" cy="282" r="28" fill="#22334d" />
+  <circle cx="330" cy="282" r="28" fill="#22334d" />
+  <circle cx="182" cy="350" r="28" fill="#22334d" />
+  <circle cx="256" cy="350" r="28" fill="#22334d" />
+  <rect x="302" y="322" width="56" height="56" rx="22" fill="url(#glow)" />
+</svg>
