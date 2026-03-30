@@ -18,6 +18,9 @@ let name = titleizeSlug(slug);
 let description = `${titleizeSlug(slug)} offline-first app`;
 let hasBackend = false;
 let hasDatabase = false;
+let template = 'scrolling';
+
+const supportedTemplates = new Set(['scrolling', 'single-screen']);
 
 for (let index = 1; index < args.length; index += 1) {
   const arg = args[index];
@@ -53,14 +56,29 @@ for (let index = 1; index < args.length; index += 1) {
     continue;
   }
 
+  if (arg === '--template') {
+    const value = args[index + 1];
+    if (!value) {
+      usage('Missing value for --template.');
+    }
+    if (!supportedTemplates.has(value)) {
+      usage(`Unknown template '${value}'. Use one of: ${Array.from(supportedTemplates).join(', ')}.`);
+    }
+    template = value;
+    index += 1;
+    continue;
+  }
+
   usage(`Unknown argument '${arg}'.`);
 }
 
 const rootDir = process.cwd();
 const templateDir = path.join(rootDir, 'templates', 'app-template');
+const presetDir = path.join(rootDir, 'templates', 'layout-presets', template);
 const targetDir = path.join(rootDir, 'apps', slug);
 
 await fs.access(templateDir);
+await fs.access(presetDir);
 
 try {
   await fs.access(targetDir);
@@ -72,6 +90,7 @@ try {
 }
 
 await fs.cp(templateDir, targetDir, { recursive: true, errorOnExist: true });
+await fs.cp(presetDir, targetDir, { recursive: true, force: true });
 
 const replacements = {
   __APP_SLUG__: slug,
@@ -79,7 +98,8 @@ const replacements = {
   __APP_DESCRIPTION__: description,
   __HAS_BACKEND__: String(hasBackend),
   __HAS_DATABASE__: String(hasDatabase),
-  __DATABASE__: hasDatabase ? 'sqlite' : 'none'
+  __DATABASE__: hasDatabase ? 'sqlite' : 'none',
+  __LAYOUT_TEMPLATE__: template
 };
 
 await replaceInTree(targetDir, replacements);
@@ -92,6 +112,7 @@ process.stdout.write(
   [
     `Created app scaffold at ${relative(targetDir)}`,
     `- name: ${name}`,
+    `- template: ${template}`,
     `- backend: ${hasBackend}`,
     `- database: ${hasDatabase}`
   ].join('\n') + '\n'
@@ -138,7 +159,7 @@ function relative(targetPath) {
 function usage(message) {
   const header = message ? `${message}\n` : '';
   process.stderr.write(
-    `${header}Usage: bash scripts/CREATE_APP.sh <slug> [--name <name>] [--description <description>] [--backend] [--database]\n`
+    `${header}Usage: bash scripts/CREATE_APP.sh <slug> [--name <name>] [--description <description>] [--template <scrolling|single-screen>] [--backend] [--database]\n`
   );
   process.exit(1);
 }

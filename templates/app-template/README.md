@@ -24,6 +24,12 @@ __APP_DESCRIPTION__
 - local state must persist in IndexedDB
 - pending sync operations must persist locally until acknowledged
 
+## Scaffold Profile
+
+- layout preset: `__LAYOUT_TEMPLATE__`
+- `scrolling` is for content-first screens with regular document flow
+- `single-screen` is for fixed-viewport tools that should not scroll
+
 ## Commands
 
 - `./START.sh`

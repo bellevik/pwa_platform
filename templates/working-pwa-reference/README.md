@@ -11,6 +11,11 @@ It exists so future sessions can copy patterns from a PWA that already works for
 - sync and canonical server state
 - iPhone hostname-based HTTPS testing
 
+For layout scaffolds, use:
+
+- `templates/layout-presets/scrolling/` for content-first apps
+- `templates/layout-presets/single-screen/` for fixed one-screen apps like calculators
+
 ## Important
 
 - This folder is not an app and must not be added under `apps/`.

@@ -43,3 +43,15 @@ If the new app needs local-first sync, add this line:
 ```text
 This app should follow the local-first offline/sync patterns used by the shopping-list reference.
 ```
+
+If the new app must stay on a single screen with scrolling disabled, add this line:
+
+```text
+Use the `single-screen` layout preset and preserve the fixed-viewport iPhone-safe sizing pattern.
+```
+
+If the new app is content-first and should scroll normally, add this line:
+
+```text
+Use the `scrolling` layout preset and keep a normal document-flow layout.
+```

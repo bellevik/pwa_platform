@@ -105,6 +105,13 @@ On iPhone:
 bash scripts/CREATE_APP.sh <slug> --name "App Name" --description "App description"
 ```
 
+Optional layout presets:
+
+```bash
+bash scripts/CREATE_APP.sh <slug> --template scrolling
+bash scripts/CREATE_APP.sh <slug> --template single-screen
+```
+
 ### Full generated app proof
 
 ```bash
