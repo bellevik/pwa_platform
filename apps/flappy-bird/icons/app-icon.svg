@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="sky" x1="0%" x2="0%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#7bd9ff" />
+      <stop offset="58%" stop-color="#c8f1ff" />
+      <stop offset="100%" stop-color="#f7ebad" />
+    </linearGradient>
+    <linearGradient id="pipe" x1="0%" x2="100%" y1="0%" y2="0%">
+      <stop offset="0%" stop-color="#257d43" />
+      <stop offset="50%" stop-color="#4db964" />
+      <stop offset="100%" stop-color="#2d914c" />
+    </linearGradient>
+    <linearGradient id="bird" x1="0%" x2="0%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffe77b" />
+      <stop offset="100%" stop-color="#ffaf28" />
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="120" fill="url(#sky)" />
+  <circle cx="396" cy="118" r="54" fill="#ffd86a" opacity="0.95" />
+  <ellipse cx="134" cy="124" rx="60" ry="28" fill="#ffffff" opacity="0.72" />
+  <ellipse cx="208" cy="96" rx="40" ry="24" fill="#ffffff" opacity="0.72" />
+  <ellipse cx="222" cy="334" rx="284" ry="108" fill="#6fc95c" />
+  <ellipse cx="254" cy="388" rx="320" ry="92" fill="#49a443" />
+  <rect x="326" y="58" width="82" height="168" rx="18" fill="url(#pipe)" stroke="#23683a" stroke-width="10" />
+  <rect x="306" y="196" width="122" height="32" rx="16" fill="#49b861" stroke="#23683a" stroke-width="10" />
+  <rect x="326" y="300" width="82" height="136" rx="18" fill="url(#pipe)" stroke="#23683a" stroke-width="10" />
+  <rect x="306" y="284" width="122" height="32" rx="16" fill="#49b861" stroke="#23683a" stroke-width="10" />
+  <g transform="translate(146 222)">
+    <path d="M18 46 L0 70 L20 76 Z" fill="#e16932" />
+    <ellipse cx="64" cy="58" rx="60" ry="48" fill="url(#bird)" stroke="#c98315" stroke-width="10" />
+    <path d="M62 64 C40 42 40 104 88 92 C96 80 88 56 62 64 Z" fill="#f08b2d" opacity="0.96" />
+    <circle cx="98" cy="42" r="10" fill="#173441" />
+    <circle cx="94" cy="38" r="4" fill="#ffffff" />
+    <path d="M116 58 L150 70 L116 88 Z" fill="#f98026" />
+  </g>
+</svg>

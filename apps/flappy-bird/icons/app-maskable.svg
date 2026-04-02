@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="maskable-sky" x1="0%" x2="0%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#75d6ff" />
+      <stop offset="62%" stop-color="#d2f5ff" />
+      <stop offset="100%" stop-color="#f8efbf" />
+    </linearGradient>
+    <linearGradient id="maskable-pipe" x1="0%" x2="100%" y1="0%" y2="0%">
+      <stop offset="0%" stop-color="#277f45" />
+      <stop offset="48%" stop-color="#53c66d" />
+      <stop offset="100%" stop-color="#2d914b" />
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" fill="url(#maskable-sky)" />
+  <circle cx="382" cy="126" r="60" fill="#ffd76d" opacity="0.98" />
+  <ellipse cx="170" cy="362" rx="284" ry="124" fill="#71c55c" />
+  <ellipse cx="268" cy="408" rx="334" ry="102" fill="#4aa443" />
+  <rect x="316" y="76" width="88" height="152" rx="20" fill="url(#maskable-pipe)" stroke="#23683a" stroke-width="12" />
+  <rect x="294" y="196" width="132" height="34" rx="17" fill="#4db964" stroke="#23683a" stroke-width="12" />
+  <rect x="316" y="302" width="88" height="132" rx="20" fill="url(#maskable-pipe)" stroke="#23683a" stroke-width="12" />
+  <rect x="294" y="286" width="132" height="34" rx="17" fill="#4db964" stroke="#23683a" stroke-width="12" />
+  <g transform="translate(122 206)">
+    <path d="M22 60 L0 88 L24 96 Z" fill="#df6831" />
+    <ellipse cx="86" cy="74" rx="74" ry="58" fill="#ffd858" stroke="#c98315" stroke-width="12" />
+    <path d="M82 82 C54 56 56 128 112 112 C122 98 112 72 82 82 Z" fill="#ef8a2e" />
+    <circle cx="128" cy="54" r="12" fill="#173441" />
+    <circle cx="123" cy="49" r="4" fill="#ffffff" />
+    <path d="M150 74 L190 88 L150 108 Z" fill="#f88025" />
+  </g>
+</svg>

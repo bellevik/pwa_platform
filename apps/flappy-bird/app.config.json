@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "slug": "flappy-bird",
+  "name": "Flappy Bird Clone",
+  "description": "Arcade-style Flappy Bird clone with touch controls, local best score tracking, and offline PWA installability",
+  "route": "/flappy-bird/",
+  "apiBase": "/api/flappy-bird/",
+  "hasBackend": false,
+  "hasDatabase": false,
+  "database": "none",
+  "pwa": true,
+  "offline": true,
+  "icon": "/flappy-bird/icons/app-icon.svg",
+  "themeColor": "#0c8aa5",
+  "backgroundColor": "#c8f1ff",
+  "version": 1
+}

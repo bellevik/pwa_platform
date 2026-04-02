@@ -1,0 +1,17 @@
+{
+  "name": "@pwa-platform/flappy-bird-backend",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch src/server.mjs",
+    "build": "node --check src/server.mjs",
+    "start": "node src/server.mjs",
+    "lint": "node -e \"console.log('No backend lint yet for flappy-bird')\"",
+    "test": "node -e \"console.log('No backend tests yet for flappy-bird')\"",
+    "typecheck": "node -e \"console.log('No backend typecheck yet for flappy-bird')\""
+  },
+  "dependencies": {
+    "fastify": "^5.3.3"
+  }
+}
