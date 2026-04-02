@@ -39,6 +39,8 @@ const MIN_ZOOM = 0.85;
 const MAX_ZOOM = 2.5;
 const BOARD_PADDING = 44;
 const PAN_THRESHOLD = 8;
+const TOP_CONTENT_GUTTER = 112;
+const BOTTOM_CONTENT_GUTTER = 20;
 
 export function FactoryBoard({ floor, selectedTool, placementDirection, selectedMachineId, onInteract, onDragPath }: FactoryBoardProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -560,10 +562,12 @@ function clampCamera(camera: CameraState, geometry: {
 function computeGeometry(canvasWidth: number, canvasHeight: number, floorWidth: number, floorHeight: number, zoom: number) {
   const width = Math.max(canvasWidth, 1);
   const height = Math.max(canvasHeight, 1);
-  const fitTileSize = Math.min((width - BOARD_PADDING) / floorWidth, (height - BOARD_PADDING) / floorHeight);
+  const usableHeight = Math.max(120, height - BOARD_PADDING - TOP_CONTENT_GUTTER - BOTTOM_CONTENT_GUTTER);
+  const fitTileSize = Math.min((width - BOARD_PADDING) / floorWidth, usableHeight / floorHeight);
   const tileSize = Math.max(20, fitTileSize * zoom);
   const boardWidth = tileSize * floorWidth;
   const boardHeight = tileSize * floorHeight;
+  const baseY = Math.max(TOP_CONTENT_GUTTER, TOP_CONTENT_GUTTER + (usableHeight - boardHeight) / 2);
 
   return {
     width,
@@ -572,7 +576,7 @@ function computeGeometry(canvasWidth: number, canvasHeight: number, floorWidth: 
     boardWidth,
     boardHeight,
     baseX: (width - boardWidth) / 2,
-    baseY: (height - boardHeight) / 2
+    baseY
   };
 }
 
