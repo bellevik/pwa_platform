@@ -37,6 +37,7 @@ a {
 }
 
 .hero-card,
+.featured-card,
 .message-card,
 .empty-state {
   backdrop-filter: blur(18px);
@@ -162,6 +163,40 @@ h2 {
   max-width: 28rem;
 }
 
+.featured-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1rem;
+  padding: 1.1rem 1.25rem;
+  background:
+    radial-gradient(circle at top right, rgba(15, 118, 110, 0.18), transparent 24%),
+    rgba(255, 255, 255, 0.72);
+}
+
+.featured-copy {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.featured-launch {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.9rem 1rem;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(69, 54, 28, 0.1);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.featured-launch__icon {
+  width: 52px;
+  height: 52px;
+}
+
 .message-card,
 .empty-state {
   padding: 1rem 1.1rem;
@@ -242,6 +277,11 @@ h2 {
   }
 
   .panel-header {
+    flex-direction: column;
+    align-items: start;
+  }
+
+  .featured-card {
     flex-direction: column;
     align-items: start;
   }

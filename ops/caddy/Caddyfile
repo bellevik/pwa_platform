@@ -3,6 +3,7 @@
 
   redir /shopping-list /shopping-list/ 308
   redir /daily-notes /daily-notes/ 308
+  redir /megafactory-mobile /megafactory-mobile/ 308
 
   handle /generated/* {
     root * /srv
@@ -16,6 +17,10 @@
 
   handle /api/shopping-list/* {
     reverse_proxy shopping-list-backend:4300
+  }
+
+  handle /api/megafactory-mobile/* {
+    reverse_proxy megafactory-mobile-backend:4310
   }
 
   @appIcons path_regexp appIcons ^/([a-z0-9-]+)/icons/(.+)$

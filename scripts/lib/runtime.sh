@@ -67,8 +67,10 @@ wait_for_platform_runtime() {
   local timeout_seconds="${1:-60}"
 
   wait_for_service_running caddy "$timeout_seconds"
+  wait_for_service_running megafactory-mobile-backend "$timeout_seconds"
   wait_for_service_running shopping-list-backend "$timeout_seconds"
   wait_for_http_ok "http://127.0.0.1/" "$timeout_seconds"
   wait_for_http_ok "http://127.0.0.1/generated/app-registry.json" "$timeout_seconds"
+  wait_for_http_ok "http://127.0.0.1/api/megafactory-mobile/health/" "$timeout_seconds"
   wait_for_http_ok "http://127.0.0.1/api/shopping-list/health/" "$timeout_seconds"
 }

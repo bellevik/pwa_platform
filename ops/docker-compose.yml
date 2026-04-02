@@ -3,6 +3,8 @@ services:
     image: caddy:2.8.4
     restart: unless-stopped
     depends_on:
+      megafactory-mobile-backend:
+        condition: service_started
       shopping-list-backend:
         condition: service_started
     ports:
@@ -25,5 +27,18 @@ services:
       HOST: 0.0.0.0
       NODE_OPTIONS: --experimental-sqlite
       PORT: 4300
+    volumes:
+      - ..:/workspace
+
+  megafactory-mobile-backend:
+    image: node:22-alpine
+    working_dir: /workspace
+    restart: unless-stopped
+    command: >-
+      sh -lc "corepack enable && pnpm --filter @pwa-platform/megafactory-mobile-backend start"
+    environment:
+      HOST: 0.0.0.0
+      NODE_OPTIONS: --experimental-sqlite
+      PORT: 4310
     volumes:
       - ..:/workspace

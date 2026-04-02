@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "slug": "megafactory-mobile",
+  "name": "Pocket Megafactory",
+  "description": "Portrait-only offline-first consumer-tech factory sim with cloud backup",
+  "route": "/megafactory-mobile/",
+  "apiBase": "/api/megafactory-mobile/",
+  "hasBackend": true,
+  "hasDatabase": true,
+  "database": "sqlite",
+  "pwa": true,
+  "offline": true,
+  "icon": "/megafactory-mobile/icons/app-icon.svg",
+  "themeColor": "#0f766e",
+  "backgroundColor": "#f5f2e9",
+  "version": 1
+}

@@ -81,6 +81,11 @@ export default function App() {
     [state.registry.generatedAt]
   );
 
+  const featuredApp = useMemo(
+    () => state.registry.apps.find((app) => app.slug === 'megafactory-mobile') ?? null,
+    [state.registry.apps]
+  );
+
   return (
     <main className="shell-app">
       <section className="hero-card">
@@ -107,6 +112,26 @@ export default function App() {
           </dl>
         </div>
       </section>
+
+      {featuredApp ? (
+        <section className="featured-card">
+          <div className="featured-copy">
+            <p className="eyebrow">Featured Build</p>
+            <h2>{featuredApp.name}</h2>
+            <p className="panel-copy">
+              Consumer-tech factory automation with visible conveyors, portrait-first controls,
+              and recovery-code cloud backup.
+            </p>
+          </div>
+
+          <a className="featured-launch" href={featuredApp.route}>
+            <span className="app-icon featured-launch__icon" style={{ background: featuredApp.themeColor }} aria-hidden="true">
+              <img alt="" className="app-icon-image" src={featuredApp.icon} />
+            </span>
+            <span>Open {featuredApp.name}</span>
+          </a>
+        </section>
+      ) : null}
 
       <section className="panel-header">
         <div>
