@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="safeBg" x1="0%" x2="100%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#173140" />
+      <stop offset="100%" stop-color="#071017" />
+    </linearGradient>
+    <linearGradient id="maskSteel" x1="0%" x2="0%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#f0fdff" />
+      <stop offset="100%" stop-color="#96dce2" />
+    </linearGradient>
+    <linearGradient id="maskVisor" x1="0%" x2="100%" y1="0%" y2="0%">
+      <stop offset="0%" stop-color="#66f5ff" />
+      <stop offset="100%" stop-color="#2bb1c2" />
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" fill="#071017" />
+  <rect x="54" y="54" width="404" height="404" rx="132" fill="url(#safeBg)" stroke="#315563" stroke-width="16" />
+  <path d="M 256 98 L 384 170 V 316 L 256 418 L 128 316 V 170 Z" fill="#102331" stroke="#2f5360" stroke-width="14" />
+  <rect x="180" y="172" width="152" height="148" rx="38" fill="url(#maskSteel)" />
+  <rect x="202" y="202" width="108" height="50" rx="24" fill="url(#maskVisor)" />
+  <circle cx="224" cy="226" r="10" fill="#eaffff" />
+  <circle cx="288" cy="226" r="10" fill="#eaffff" />
+  <path d="M 210 284 H 302" fill="none" stroke="#17323b" stroke-linecap="round" stroke-width="16" />
+  <path d="M 330 204 L 380 186" fill="none" stroke="#ffb35f" stroke-linecap="round" stroke-width="20" />
+  <circle cx="382" cy="186" r="20" fill="none" stroke="#ffd46d" stroke-width="10" />
+</svg>

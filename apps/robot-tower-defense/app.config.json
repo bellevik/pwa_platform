@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "slug": "robot-tower-defense",
+  "name": "Robot Tower Defense",
+  "description": "Portrait-first robot tower defense campaign with fixed pads, manual wave starts, and offline PWA play",
+  "route": "/robot-tower-defense/",
+  "apiBase": "/api/robot-tower-defense/",
+  "hasBackend": false,
+  "hasDatabase": false,
+  "database": "none",
+  "pwa": true,
+  "offline": true,
+  "icon": "/robot-tower-defense/icons/app-icon.svg",
+  "themeColor": "#0e2432",
+  "backgroundColor": "#071017",
+  "version": 1
+}
